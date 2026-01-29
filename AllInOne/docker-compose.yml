@@ -1,3 +1,10 @@
+x-environment: &environment
+  env_file:
+    - creds.env
+    - internal.env
+    - routes.env
+    - user.env
+
 name: AllInOne
 
 services:
@@ -6,6 +13,7 @@ services:
   ######################################################
 
   tre-ui:
+    <<: *environment
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-tre-ui:${dareVer}
     container_name: treUI
     restart: always
@@ -16,28 +24,11 @@ services:
     depends_on:
       - tre-api
     environment:
-      - TreAPISettings__InternalApiBaseUrl=http://treAPI:8080
-      - TreAPISettings__PublicApiBaseUrl=http://localhost:8072
-      - Serilog__SeqServerUrl=http://seq:5341
-      - DemoMode=${DemoMode}
-      - KeyCloakDemoMode=${KeyCloakDemoMode}
-      - TreKeyCloakSettings__Authority=${TreKeyCloakAuthority}
-      - TreKeyCloakSettings__MetadataAddress=${TreKeyCloakMetadataAddress}
-      - TreKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}
-      - TreKeyCloakSettings__ClientId=${TreKeyCloakClientId}
-      - TreKeyCloakSettings__ClientSecret=${TreKeyCloakSecret}
-      - TreKeyCloakSettings__ValidAudiences=${TreValidAudiences}
       - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - sslcookies=${sslcookies}
-      - httpsRedirect=${httpsRedirect}
-      - TreKeyCloakSettings__AccountManagementURL=${TreAccountManagementURLUI}
-      - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"
-      - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpredAddressUI}
-      - TreKeyCloakSettings__UseRedirectURL=${TreKeyCloakUseRedirect}
-      - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRediretURL}
 
   tre-api:
+    <<: *environment
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-tre-api:${dareVer}
     container_name: treapi
     restart: always
@@ -161,6 +152,7 @@ services:
   ######################################################
 
   DataEgressUI:
+    <<: *environment
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-ui:${dareVer}
     container_name: DataEgressUI
     restart: always
@@ -192,6 +184,7 @@ services:
       - httpsRedirect=${httpsRedirect}
 
   DataEgressAPI:
+    <<: *environment
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-api:${dareVer}
     container_name: DataEgressAPI
     restart: always
@@ -249,6 +242,7 @@ services:
   ######################################################
 
   submissionUI:
+    <<: *environment
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-main-ui:${dareVer}
     container_name: submissionUI
     restart: always
@@ -287,6 +281,7 @@ services:
       - httpsRedirect=${httpsRedirect}
 
   submissionAPI:
+    <<: *environment
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-main-api:${dareVer}
     container_name: submissionAPI
     restart: always
@@ -349,6 +344,7 @@ services:
   # Credentials
   #####################################################
   TRE-Camunda:
+    <<: *environment
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-tre-camunda:${dareVer}
     container_name: TRE-Camunda
     restart: always
@@ -397,6 +393,7 @@ services:
   # Keycloak
   ######################################################
   keycloak:
+    <<: *environment
     image: quay.io/keycloak/keycloak:26.0
     container_name: keycloak
     environment:
@@ -444,6 +441,7 @@ services:
   # POSTGRES
   ######################################################
   postgresql:
+    <<: *environment
     image: postgres:17
     container_name: postgres
     restart: always
@@ -462,6 +460,7 @@ services:
       test: ["CMD-SHELL", "pg_isready -q -U ${PGLOGIN} -d keycloak"]
 
   adminer:
+    <<: *environment
     image: adminer
     restart: always
     networks:
@@ -486,6 +485,7 @@ services:
   ######################################################
 
   rabbitmq:
+    <<: *environment
     image: rabbitmq:3-management-alpine
     container_name: "rabbitmq"
     hostname: rabbitmq
@@ -507,6 +507,7 @@ services:
   # MINIO
   ######################################################
   minioSubmission:
+    <<: *environment
     image: coollabsio/minio:RELEASE.2025-04-22T22-12-26Z
     container_name: minioSubmission
     restart: always
@@ -544,6 +545,7 @@ services:
       start_period: 30s
 
   minioTRE:
+    <<: *environment
     image: coollabsio/minio:RELEASE.2025-04-22T22-12-26Z
     mem_limit: 512M
     mem_reservation: 256M
@@ -585,6 +587,7 @@ services:
   # SEQ / Serilog
   ######################################################
   seq:
+    <<: *environment
     image: datalust/seq:2025.1.14095
     container_name: seq
     restart: always
@@ -602,6 +605,7 @@ services:
   ######################################################
 
   orchestration: # Consolidated Zeebe + Operate + Tasklist - https://docs.camunda.io/docs/self-managed/setup/deploy/other/docker/#zeebe
+    <<: *environment
     image: camunda/camunda:${CAMUNDA_VERSION}
     container_name: orchestration
     ports:
@@ -635,6 +639,7 @@ services:
   # Camunda Connectors - executes outbound and inbound connector logic
   # Docs: https://docs.camunda.io/docs/self-managed/connectors-deployment/connectors-configuration/
   connectors:
+    <<: *environment
     image: camunda/connectors-bundle:${CAMUNDA_BUNDLE_VERSION}
     container_name: connectors
     ports:
@@ -663,6 +668,7 @@ services:
         condition: service_healthy
 
   elasticsearch: # https://hub.docker.com/_/elasticsearch
+    <<: *environment
     image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTIC_VERSION}
     container_name: elasticsearch
     ports:
@@ -696,6 +702,7 @@ services:
   # VAULT
   ######################################################
   vault:
+    <<: *environment
     image: hashicorp/vault:latest
     container_name: vault
     mem_limit: 512M
@@ -728,6 +735,7 @@ services:
   # OPENLDAP
   ######################################################
   openldap:
+    <<: *environment
     image: osixia/openldap:1.5.0
     container_name: openldap
     environment:
@@ -764,6 +772,7 @@ services:
 
   ## Ldap initialisation to create Users OU ##
   ldap-init:
+    <<: *environment
     image: osixia/openldap:1.5.0
     networks:
       - sub-net
@@ -782,6 +791,7 @@ services:
       - ./ldap-init/init.ldif:/container/service/slapd/assets/init.ldif
 
   phpldapadmin:
+    <<: *environment
     image: osixia/phpldapadmin:latest
     container_name: phpldapadmin
     networks:

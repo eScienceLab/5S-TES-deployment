@@ -58,7 +58,6 @@ services:
       - Features__DemoAllInOne=${DemoMode}
       - Features__EphemeralCredentials=true
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Tre;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
-      - ConnectionStrings__CredentialsConnection=Server=postgres;Port=5432;Database=TRE_Credentials;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - DareAPISettings__Address=http://submissionAPI:8080
       - DataEgressAPISettings__Address=https://egressAPI:8080 
       - EnableExternalHangfire=${EnableExternalHangfire}
@@ -360,7 +359,6 @@ services:
       - VaultSettings__SecretEngine=secret
       - VaultSettings__EnableRetry=true
       - VaultSettings__MaxRetryAttempts=3
-      - ConnectionStrings__CredentialsConnection=Server=postgres;Port=5432;Database=TRE_Credentials;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};
       - ConnectionStrings__TREPostgresConnection=Server=${TRE_DATA_SERVER};Port=${TRE_DATA_PORT};Database=${TRE_DATA_DATABASE};Include Error Detail=true;User Id=${TRE_DATA_USER};Password=${TRE_DATA_PASSWORD};
 
   ######################################################

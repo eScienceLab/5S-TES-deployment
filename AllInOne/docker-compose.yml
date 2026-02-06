@@ -58,18 +58,9 @@ services:
       - Features__DemoAllInOne=${DemoMode}
       - Features__EphemeralCredentials=true
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Tre;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
-      - TreKeyCloakSettings__Authority=${TreKeyCloakAuthority}
-      - TreKeyCloakSettings__MetadataAddress=${TreKeyCloakMetadataAddress}
-      - TreKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}
-      - TreKeyCloakSettings__ClientId=${TreKeyCloakClientId}
-      - TreKeyCloakSettings__ClientSecret=${TreKeyCloakSecret}
-      - TreKeyCloakSettings__ValidAudiences=${TreValidAudiences}
       - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"
       - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpredAddressUI}
-      - TreKeyCloakSettings__UseRedirectURL=${TreKeyCloakUseRedirect}
-      - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRediretURL}
       - DataEgressKeyCloakSettings__Authority=${EgressKeyCloakAuthority}
       - DataEgressKeyCloakSettings__MetadataAddress=${EgressKeyCloakMetadataAddress}
       - DataEgressKeyCloakSettings__BaseUrl=${EgressKeyCloakBaseRealmAddress}
@@ -172,18 +163,9 @@ services:
         condition: service_healthy
     environment:
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DATA-Egress;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
-      - TreKeyCloakSettings__Authority=${TreAPIKeyCloakAuthority}
-      - TreKeyCloakSettings__MetadataAddress=${TreAPIKeyCloakMetadataAddress}
-      - TreKeyCloakSettings__BaseUrl=${TreAPIKeyCloakBaseRealmAddress}
-      - TreKeyCloakSettings__ClientId=${TreAPIKeyCloakClientId}
-      - TreKeyCloakSettings__ClientSecret=${TreAPIKeyCloakSecret}
-      - TreKeyCloakSettings__ValidAudiences=${TreAPIValidAudiences}
       - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"
       - TreKeyCloakSettings__TokenExpiredAddress=${TreAPIKeyCloakTokenExpredAddressUI}
-      - TreKeyCloakSettings__UseRedirectURL=${TreKeyCloakUseRedirect}
-      - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRediretURL}
       - DataEgressKeyCloakSettings__Authority=${EgressKeyCloakAuthority}
       - DataEgressKeyCloakSettings__MetadataAddress=${EgressKeyCloakMetadataAddress}
       - DataEgressKeyCloakSettings__BaseUrl=${EgressKeyCloakBaseRealmAddress}

@@ -98,7 +98,6 @@ services:
       - SubmissionKeyCloakSettings__RedirectURL=${SubmissionAPIKeyCloakClientUIRedirectURL}
       - DataEgressAPISettings__Address=http://DataEgressAPI:8080
       - MinioTRESettings__Url=http://minioTRE:9000
-      - MinioTRESettings__HutchURLOverride=${HutchMinioURLOverride}
       - MinioTRESettings__AccessKey=${TreMinioAdminUser}
       - MinioTRESettings__SecretKey=${TreMinioAdminPassword}
       - MinioTRESettings__AdminConsole=http://minioTRE:9001
@@ -109,10 +108,6 @@ services:
       - MinioSubSettings__BucketName=testbucket
       - MinioSubSettings__AWSRegion=us-east-1
       - MinioTRESettings__AWSRegion=us-east-1
-      - Hutch__APIAddress=${HutchAPIAddress}
-      - Hutch__DbServer=${HutchDbServer}
-      - Hutch__DbName=${HutchDbName}
-      - Hutch__DbPort=${HutchDbPort}
       - CredentialAPISettings__StartWebhookUrl=${CredentialAPISettingsStartWebhookUrl}
       - CredentialAPISettings__RevokeWebhookUrl=${CredentialAPISettingsRevokeWebhookUrl}
       - VaultSettings__BaseUrl=http://vault:8200

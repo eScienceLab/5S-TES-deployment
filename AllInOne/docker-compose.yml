@@ -261,7 +261,6 @@ services:
       - SubmissionKeyCloakSettings__ClientSecret=${SubmissionUIClientSecret}
       - SubmissionKeyCloakSettings__AccountManagementURL=${SubmissionUIAccountManagementURL}
       - SubmissionKeyCloakSettings__BaseUrl=${SubmissionUIKeyCloakBaseUrl}
-      - SuppressAntiforgery=${SuppressAntiforgery}
       - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionUIKeyCloakMetadataAddress}
       - SubmissionKeyCloakSettings__Authority=${SubmissionUIKeyCloakAuthority}
       - URLSettingsFrontEnd__QueryImage=${URLSettingsFrontEndQueryImage}
@@ -303,7 +302,6 @@ services:
       - MinioSettings__AccessKey=${MinioRootUser}
       - MinioSettings__SecretKey=${MinioRootPass}
       - MinioSettings__BucketName=testbucket
-      - SuppressAntiforgery=${SuppressAntiforgery}
       - MinioSettings__AdminConsole=http://minioSubmission:9001
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}

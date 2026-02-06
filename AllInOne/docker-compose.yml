@@ -57,7 +57,6 @@ services:
     environment:
       - Features__DemoAllInOne=${DemoMode}
       - Features__EphemeralCredentials=true
-      - KeyCloakDemoMode=${KeyCloakDemoMode}
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Tre;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - ConnectionStrings__CredentialsConnection=Server=postgres;Port=5432;Database=TRE_Credentials;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - RabbitMQ__HostAddress=rabbitmq
@@ -163,7 +162,6 @@ services:
       - DataEgressAPI
     environment:
       - DemoMode=${DemoMode}
-      - KeyCloakDemoMode=${KeyCloakDemoMode}
       - Serilog__SeqServerUrl=http://seq:5341
       - DataEgressKeyCloakSettings__Authority=${EgressKeyCloakAuthority}
       - DataEgressKeyCloakSettings__MetadataAddress=${EgressKeyCloakMetadataAddress}
@@ -200,7 +198,6 @@ services:
         condition: service_healthy
     environment:
       - DemoMode=${DemoMode}
-      - KeyCloakDemoMode=${KeyCloakDemoMode}
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DATA-Egress;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - RabbitMQ__HostAddress=rabbitmq-tre
       - Serilog__SeqServerUrl=http://seq:5341
@@ -255,7 +252,6 @@ services:
       - data-protection:/root/.aspnet/DataProtection-Keys
     environment:
       - DemoMode=${DemoMode}
-      - KeyCloakDemoMode=${KeyCloakDemoMode}
       - Serilog__SeqServerUrl=http://seq:5341
       - KeyCloakSettings__Proxy=false
       - DareAPISettings__Address=http://submissionAPI:8080
@@ -307,7 +303,6 @@ services:
         condition: service_healthy
     environment:
       - DemoMode=${DemoMode}
-      - KeyCloakDemoMode=${KeyCloakDemoMode}
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Control;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - RabbitMQ__HostAddress=rabbitmq
       - Serilog__SeqServerUrl=http://seq:5341

@@ -58,7 +58,6 @@ services:
       - Features__DemoAllInOne=${DemoMode}
       - Features__EphemeralCredentials=true
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Tre;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
-      - DareAPISettings__Address=http://submissionAPI:8080
       - DataEgressAPISettings__Address=https://egressAPI:8080 
       - TreKeyCloakSettings__Authority=${TreKeyCloakAuthority}
       - TreKeyCloakSettings__MetadataAddress=${TreKeyCloakMetadataAddress}
@@ -227,7 +226,6 @@ services:
       - data-protection:/root/.aspnet/DataProtection-Keys
     environment:
       - KeyCloakSettings__Proxy=false
-      - DareAPISettings__Address=http://submissionAPI:8080
       - DareAPISettings_HelpAddress=http://submissionAPI:8080
       - FormIOSettings__UseInternal=true
       - SubmissionKeyCloakSettings__Proxy=${useproxy}

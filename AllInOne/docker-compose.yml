@@ -103,7 +103,6 @@ services:
       - DataEgressAPISettings__Address=http://DataEgressAPI:8080
       - AgentSettings__TESKAPIURL=${TesAPIUrl}
       - AgentSettings__TESKOutputBucketPrefix=${TesOutputBucketPrefix}
-      - TreName=${TreName}
       - MinioTRESettings__Url=http://minioTRE:9000
       - MinioTRESettings__HutchURLOverride=${HutchMinioURLOverride}
       - MinioTRESettings__AccessKey=${TreMinioAdminUser}

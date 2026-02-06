@@ -96,8 +96,6 @@ services:
       - SubmissionKeyCloakSettings__TokenExpiredAddress=${SubmissionAPIKeyCloakTokenExpredAddressUI}
       - SubmissionKeyCloakSettings__UseRedirectURL=${SubmissionAPIKeyCloakUseRedirect}
       - SubmissionKeyCloakSettings__RedirectURL=${SubmissionAPIKeyCloakClientUIRedirectURL}
-      - JobSettings__scanSchedule=${scanSchedule}
-      - JobSettings__syncSchedule=${syncSchedule}
       - DataEgressAPISettings__Address=http://DataEgressAPI:8080
       - MinioTRESettings__Url=http://minioTRE:9000
       - MinioTRESettings__HutchURLOverride=${HutchMinioURLOverride}

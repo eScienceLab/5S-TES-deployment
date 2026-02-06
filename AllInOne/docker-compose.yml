@@ -58,7 +58,6 @@ services:
       - Features__DemoAllInOne=${DemoMode}
       - Features__EphemeralCredentials=true
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Tre;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
-      - DataEgressAPISettings__Address=https://egressAPI:8080 
       - TreKeyCloakSettings__Authority=${TreKeyCloakAuthority}
       - TreKeyCloakSettings__MetadataAddress=${TreKeyCloakMetadataAddress}
       - TreKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}
@@ -95,7 +94,6 @@ services:
       - SubmissionKeyCloakSettings__TokenExpiredAddress=${SubmissionAPIKeyCloakTokenExpredAddressUI}
       - SubmissionKeyCloakSettings__UseRedirectURL=${SubmissionAPIKeyCloakUseRedirect}
       - SubmissionKeyCloakSettings__RedirectURL=${SubmissionAPIKeyCloakClientUIRedirectURL}
-      - DataEgressAPISettings__Address=http://DataEgressAPI:8080
       - MinioTRESettings__Url=http://minioTRE:9000
       - MinioTRESettings__AccessKey=${TreMinioAdminUser}
       - MinioTRESettings__SecretKey=${TreMinioAdminPassword}
@@ -154,7 +152,6 @@ services:
       - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpredAddressUI}
       - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
       - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRediretURL}
-      - DataEgressAPISettings__Address=http://DataEgressAPI:8080
       - MinioSettings__Url=http://localhost:9003
 
   DataEgressAPI:
@@ -204,7 +201,7 @@ services:
       - MinioSettings__BucketName=testbucket
       - MinioSettings__AdminConsole=http://minioIn:9001
       - TreAPISettings__Address=http://treapi:8080
-      - DataEgressAPISettings__Address=http://DataEgressAPI:8100
+
 
   ######################################################
   # SUBMISSION LAYER

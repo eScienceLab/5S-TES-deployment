@@ -175,7 +175,6 @@ services:
       - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRediretURL}
       - DataEgressAPISettings__Address=http://DataEgressAPI:8080
       - MinioSettings__Url=http://localhost:9003
-      - httpsRedirect=${httpsRedirect}
 
   DataEgressAPI:
     <<: *environment
@@ -264,7 +263,6 @@ services:
       - SubmissionKeyCloakSettings__Authority=${SubmissionUIKeyCloakAuthority}
       - URLSettingsFrontEnd__QueryImage=${URLSettingsFrontEndQueryImage}
       - URLSettingsFrontEnd__MinioUrl=${URLSettingsFrontEndMinioUrl}
-      - httpsRedirect=${httpsRedirect}
 
   submissionAPI:
     <<: *environment

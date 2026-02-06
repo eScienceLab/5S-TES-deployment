@@ -160,7 +160,6 @@ services:
     depends_on:
       - DataEgressAPI
     environment:
-      - DemoMode=${DemoMode}
       - DataEgressKeyCloakSettings__Authority=${EgressKeyCloakAuthority}
       - DataEgressKeyCloakSettings__MetadataAddress=${EgressKeyCloakMetadataAddress}
       - DataEgressKeyCloakSettings__BaseUrl=${EgressKeyCloakBaseRealmAddress}
@@ -193,7 +192,6 @@ services:
       keycloak:
         condition: service_healthy
     environment:
-      - DemoMode=${DemoMode}
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DATA-Egress;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - TreKeyCloakSettings__Authority=${TreAPIKeyCloakAuthority}
       - TreKeyCloakSettings__MetadataAddress=${TreAPIKeyCloakMetadataAddress}
@@ -245,7 +243,6 @@ services:
     volumes:
       - data-protection:/root/.aspnet/DataProtection-Keys
     environment:
-      - DemoMode=${DemoMode}
       - KeyCloakSettings__Proxy=false
       - DareAPISettings__Address=http://submissionAPI:8080
       - DareAPISettings_HelpAddress=http://submissionAPI:8080
@@ -292,7 +289,6 @@ services:
       minioSubmission:
         condition: service_healthy
     environment:
-      - DemoMode=${DemoMode}
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Control;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - MinioSettings__Url=http://minioSubmission:9000
       - MinioSettings__AccessKey=${MinioRootUser}

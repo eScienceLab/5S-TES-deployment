@@ -162,7 +162,6 @@ services:
       - DataEgressAPI
     environment:
       - DemoMode=${DemoMode}
-      - Serilog__SeqServerUrl=http://seq:5341
       - DataEgressKeyCloakSettings__Authority=${EgressKeyCloakAuthority}
       - DataEgressKeyCloakSettings__MetadataAddress=${EgressKeyCloakMetadataAddress}
       - DataEgressKeyCloakSettings__BaseUrl=${EgressKeyCloakBaseRealmAddress}
@@ -200,7 +199,6 @@ services:
       - DemoMode=${DemoMode}
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DATA-Egress;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - RabbitMQ__HostAddress=rabbitmq-tre
-      - Serilog__SeqServerUrl=http://seq:5341
       - TreKeyCloakSettings__Authority=${TreAPIKeyCloakAuthority}
       - TreKeyCloakSettings__MetadataAddress=${TreAPIKeyCloakMetadataAddress}
       - TreKeyCloakSettings__BaseUrl=${TreAPIKeyCloakBaseRealmAddress}
@@ -252,7 +250,6 @@ services:
       - data-protection:/root/.aspnet/DataProtection-Keys
     environment:
       - DemoMode=${DemoMode}
-      - Serilog__SeqServerUrl=http://seq:5341
       - KeyCloakSettings__Proxy=false
       - DareAPISettings__Address=http://submissionAPI:8080
       - DareAPISettings_HelpAddress=http://submissionAPI:8080
@@ -305,7 +302,6 @@ services:
       - DemoMode=${DemoMode}
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Control;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - RabbitMQ__HostAddress=rabbitmq
-      - Serilog__SeqServerUrl=http://seq:5341
       - MinioSettings__Url=http://minioSubmission:9000
       - MinioSettings__AccessKey=${MinioRootUser}
       - MinioSettings__SecretKey=${MinioRootPass}
@@ -356,7 +352,6 @@ services:
       - Logging__LogLevel__Default=Information
       - Logging__LogLevel__Microsoft.AspNetCore=Warning
       - AllowedHosts=*
-      - Serilog__SeqServerUrl=http://seq:5341
       # Zeebe Bootstrap settings
       - ZeebeBootstrap__Client__GatewayAddress=orchestration:26500
       - ZeebeBootstrap__Worker__MaxJobsActive=5

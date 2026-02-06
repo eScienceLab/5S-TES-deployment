@@ -61,7 +61,6 @@ services:
       - DareAPISettings__Address=http://submissionAPI:8080
       - DataEgressAPISettings__Address=https://egressAPI:8080 
       - EnableExternalHangfire=${EnableExternalHangfire}
-      - IgnoreHutchSSL=${IgnoreHutchSSL}
       - TreKeyCloakSettings__Authority=${TreKeyCloakAuthority}
       - TreKeyCloakSettings__MetadataAddress=${TreKeyCloakMetadataAddress}
       - TreKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}

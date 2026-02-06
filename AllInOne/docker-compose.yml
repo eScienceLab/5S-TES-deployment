@@ -58,7 +58,6 @@ services:
       - Features__DemoAllInOne=${DemoMode}
       - Features__EphemeralCredentials=true
       - KeyCloakDemoMode=${KeyCloakDemoMode}
-      - DemoModeDefaultP=password123
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Tre;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - ConnectionStrings__CredentialsConnection=Server=postgres;Port=5432;Database=TRE_Credentials;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - RabbitMQ__HostAddress=rabbitmq
@@ -202,7 +201,6 @@ services:
     environment:
       - DemoMode=${DemoMode}
       - KeyCloakDemoMode=${KeyCloakDemoMode}
-      - DemoModeDefaultP=password123
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DATA-Egress;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - RabbitMQ__HostAddress=rabbitmq-tre
       - Serilog__SeqServerUrl=http://seq:5341

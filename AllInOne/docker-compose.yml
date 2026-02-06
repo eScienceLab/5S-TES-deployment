@@ -60,7 +60,6 @@ services:
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Tre;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - DareAPISettings__Address=http://submissionAPI:8080
       - DataEgressAPISettings__Address=https://egressAPI:8080 
-      - EnableExternalHangfire=${EnableExternalHangfire}
       - TreKeyCloakSettings__Authority=${TreKeyCloakAuthority}
       - TreKeyCloakSettings__MetadataAddress=${TreKeyCloakMetadataAddress}
       - TreKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}
@@ -68,7 +67,6 @@ services:
       - TreKeyCloakSettings__ClientSecret=${TreKeyCloakSecret}
       - TreKeyCloakSettings__ValidAudiences=${TreValidAudiences}
       - TreKeyCloakSettings__Proxy=${useproxy}
-      - EnableExternalHangfire=true
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"
       - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpredAddressUI}

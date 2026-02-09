@@ -60,19 +60,13 @@ services:
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Tre;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpredAddressUI}
-      - DataEgressKeyCloakSettings__Authority=${EgressKeyCloakAuthority}
-      - DataEgressKeyCloakSettings__MetadataAddress=${EgressKeyCloakMetadataAddress}
-      - DataEgressKeyCloakSettings__BaseUrl=${EgressKeyCloakBaseRealmAddress}
-      - DataEgressKeyCloakSettings__ClientId=${EgressKeyCloakClientID}
-      - DataEgressKeyCloakSettings__ClientSecret=${EgressKeyCloakSecret}
-      - DataEgressKeyCloakSettings__ValidAudiences=${EgressValidAudiences}
+      - TreKeyCloakSettings__TokenExpiredAddress=
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - DataEgressKeyCloakSettings__BypassProxy="DataEgressUI,treAPI,seq-tre"
-      - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpredAddressUI}
-      - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
-      - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRediretURL}
+
+
+
+
       - SubmissionKeyCloakSettings__Authority=${SubmissionAPIKeyCloakAuthority}
       - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionAPIKeyCloakMetadataAddress}
       - SubmissionKeyCloakSettings__BaseUrl=${SubmissionAPIKeyCloakBaseRealmAddress}

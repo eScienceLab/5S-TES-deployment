@@ -171,15 +171,6 @@ services:
       - FormIOSettings__UseInternal=true
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - SubmissionKeyCloakSettings__BypassProxy="submissionAPI,seq"
-      - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
-      - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
-      - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
-      - SubmissionKeyCloakSettings__ClientSecret=${SubmissionUIClientSecret}
-      - SubmissionKeyCloakSettings__AccountManagementURL=${SubmissionUIAccountManagementURL}
-      - SubmissionKeyCloakSettings__BaseUrl=${SubmissionUIKeyCloakBaseUrl}
-      - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionUIKeyCloakMetadataAddress}
-      - SubmissionKeyCloakSettings__Authority=${SubmissionUIKeyCloakAuthority}
       - URLSettingsFrontEnd__QueryImage=${URLSettingsFrontEndQueryImage}
       - URLSettingsFrontEnd__MinioUrl=${URLSettingsFrontEndMinioUrl}
 

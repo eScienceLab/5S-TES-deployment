@@ -113,18 +113,8 @@ services:
     depends_on:
       - DataEgressAPI
     environment:
-      - DataEgressKeyCloakSettings__Authority=${EgressKeyCloakAuthority}
-      - DataEgressKeyCloakSettings__MetadataAddress=${EgressKeyCloakMetadataAddress}
-      - DataEgressKeyCloakSettings__BaseUrl=${EgressKeyCloakBaseRealmAddress}
-      - DataEgressKeyCloakSettings__ClientId=${EgressKeyCloakClientID}
-      - DataEgressKeyCloakSettings__ClientSecret=${EgressKeyCloakSecret}
-      - DataEgressKeyCloakSettings__ValidAudiences=${EgressValidAudiences}
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - DataEgressKeyCloakSettings__BypassProxy=treAPI,seq-tre
-      - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpredAddressUI}
-      - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
-      - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRediretURL}
       - MinioSettings__Url=http://localhost:9003
 
   DataEgressAPI:
@@ -147,18 +137,8 @@ services:
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DATA-Egress;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - TreKeyCloakSettings__TokenExpiredAddress=${TreAPIKeyCloakTokenExpredAddressUI}
-      - DataEgressKeyCloakSettings__Authority=${EgressKeyCloakAuthority}
-      - DataEgressKeyCloakSettings__MetadataAddress=${EgressKeyCloakMetadataAddress}
-      - DataEgressKeyCloakSettings__BaseUrl=${EgressKeyCloakBaseRealmAddress}
-      - DataEgressKeyCloakSettings__ClientId=${EgressKeyCloakClientID}
-      - DataEgressKeyCloakSettings__ClientSecret=${EgressKeyCloakSecret}
-      - DataEgressKeyCloakSettings__ValidAudiences=${EgressKeyCloakClientID}
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - DataEgressKeyCloakSettings__BypassProxy="treAPI,seq-tre"
-      - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpredAddressUI}
-      - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
       - MinioSettings__Url=http://minioTRE:9000
       - MinioSettings__AccessKey=${TreMinioAdminUser}
       - MinioSettings__SecretKey=${TreMinioAdminPassword}

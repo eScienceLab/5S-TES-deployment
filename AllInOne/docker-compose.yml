@@ -63,22 +63,10 @@ services:
       - TreKeyCloakSettings__TokenExpiredAddress=
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
-
-
-
-
-      - SubmissionKeyCloakSettings__Authority=${SubmissionAPIKeyCloakAuthority}
-      - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionAPIKeyCloakMetadataAddress}
-      - SubmissionKeyCloakSettings__BaseUrl=${SubmissionAPIKeyCloakBaseRealmAddress}
-      - SubmissionKeyCloakSettings__ClientId=${SubmissionAPIKeyCloakClientId}
-      - SubmissionKeyCloakSettings__ClientSecret=${SubmissionAPIKeyCloakSecret}
-      - SubmissionKeyCloakSettings__ValidAudiences=${SubmissionAPIValidAudiences}
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - SubmissionKeyCloakSettings__BypassProxy="treAPI,seq-tre"
-      - SubmissionKeyCloakSettings__TokenExpiredAddress=${SubmissionAPIKeyCloakTokenExpredAddressUI}
-      - SubmissionKeyCloakSettings__UseRedirectURL=${SubmissionAPIKeyCloakUseRedirect}
-      - SubmissionKeyCloakSettings__RedirectURL=${SubmissionAPIKeyCloakClientUIRedirectURL}
+
+
       - MinioTRESettings__Url=http://minioTRE:9000
       - MinioTRESettings__AccessKey=${TreMinioAdminUser}
       - MinioTRESettings__SecretKey=${TreMinioAdminPassword}

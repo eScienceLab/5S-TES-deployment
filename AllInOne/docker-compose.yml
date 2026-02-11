@@ -211,23 +211,6 @@ services:
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - SubmissionKeyCloakSettings__BypassProxy=minioSubmission,seq
-      - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
-      - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
-      - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
-      - SubmissionKeyCloakSettings__BaseUrl=${SubmissionAPIKeyCloakBaseRealmAddress}
-      - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionAPIKeyCloakMetadataAddress}
-      - SubmissionKeyCloakSettings__Authority=${SubmissionAPIKeyCloakAuthority}
-      - SubmissionKeyCloakSettings__ClientSecret=${SubmissionAPIKeyCloakSecret}
-      #- SubmissionKeyCloakSettings__RemoteSignOutPath=${SubmissionRemoteSignOutPath}
-      - SubmissionKeyCloakSettings__SignedOutRedirectUri=${SubmissionSignedOutRedirectUri}
-      - SubmissionKeyCloakSettings__TokenRefreshSeconds=${SubmissionTokenRefreshSeconds}
-      - SubmissionKeyCloakSettings__ValidAudiences=${SubmissionValidAudiences}
-      - SubmissionKeyCloakSettings__Server=${SubmissionServer}
-      - SubmissionKeyCloakSettings__Protocol=${SubmissionServerProtocol}
-      - SubmissionKeyCloakSettings__Realm=${SubmissionRealm}
-      - SubmissionKeyCloakSettings__AutoTrustKeycloakCert=${SubmissionAutoTrustKeycloakCert}
-      - SubmissionKeyCloakSettings__ValidIssuer=${SubmissionValidIssuer}
-      - SubmissionKeyCloakSettings__ValidAudience=${SubmissionValidAudience}
 
   #####################################################
   # Credentials

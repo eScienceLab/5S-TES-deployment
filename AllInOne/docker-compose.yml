@@ -5,6 +5,7 @@ x-environment: &environment
     - routes.env
     - user.env
     - vault.env
+    - minio.env
 
 name: AllInOne
 
@@ -66,19 +67,6 @@ services:
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
-
-
-      - MinioTRESettings__Url=http://minioTRE:9000
-      - MinioTRESettings__AccessKey=${TreMinioAdminUser}
-      - MinioTRESettings__SecretKey=${TreMinioAdminPassword}
-      - MinioTRESettings__AdminConsole=http://minioTRE:9001
-      - MinioSubSettings__Url=${submissionMinioUrl}
-      - MinioSubSettings__AccessKey=${MinioRootUser}
-      - MinioSubSettings__SecretKey=${MinioRootPass}
-      - MinioSubSettings__AdminConsole=${submissionMinioAdminConsole}
-      - MinioSubSettings__BucketName=testbucket
-      - MinioSubSettings__AWSRegion=us-east-1
-      - MinioTRESettings__AWSRegion=us-east-1
       - CredentialAPISettings__StartWebhookUrl=${CredentialAPISettingsStartWebhookUrl}
       - CredentialAPISettings__RevokeWebhookUrl=${CredentialAPISettingsRevokeWebhookUrl}
       - DmnFilePath=app/ProcessModels
@@ -110,7 +98,7 @@ services:
     environment:
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - MinioSettings__Url=http://localhost:9003
+      - MinioSettings__Url=${MinioTRESettings__AdminConsole}
 
   DataEgressAPI:
     <<: *environment
@@ -134,11 +122,8 @@ services:
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - MinioSettings__Url=http://minioTRE:9000
-      - MinioSettings__AccessKey=${TreMinioAdminUser}
-      - MinioSettings__SecretKey=${TreMinioAdminPassword}
-      - MinioSettings__BucketName=testbucket
-      - MinioSettings__AdminConsole=http://minioIn:9001
+      - MinioSettings__Url=${MinioTRESettings__Url}
+      - MinioSettings__AdminConsole=${MinioTRESettings__AdminConsole}
       - TreAPISettings__Address=http://treapi:8080
 
 
@@ -166,8 +151,6 @@ services:
       - FormIOSettings__UseInternal=true
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - URLSettingsFrontEnd__QueryImage=${URLSettingsFrontEndQueryImage}
-      - URLSettingsFrontEnd__MinioUrl=${URLSettingsFrontEndMinioUrl}
 
   submissionAPI:
     <<: *environment
@@ -198,11 +181,8 @@ services:
         condition: service_healthy
     environment:
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Control;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
-      - MinioSettings__Url=http://minioSubmission:9000
-      - MinioSettings__AccessKey=${MinioRootUser}
-      - MinioSettings__SecretKey=${MinioRootPass}
-      - MinioSettings__BucketName=testbucket
-      - MinioSettings__AdminConsole=http://minioSubmission:9001
+      - MinioSettings__Url=${MinioSubSettings__URL}
+      - MinioSettings__AdminConsole=${MinioSubSettings__AdminConsole}
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - SubmissionKeyCloakSettings__BypassProxy=minioSubmission,seq
@@ -366,15 +346,13 @@ services:
       keycloak:
         condition: service_healthy
     environment:
-      - MINIO_ROOT_USER=${MinioRootUser}
-      - MINIO_ROOT_PASSWORD=${MinioRootPass}
+      - MINIO_ROOT_USER=${MinioSettings__AccessKey}
+      - MINIO_ROOT_PASSWORD=${MinioSettings__SecretKey}
       - MINIO_BROWSER_REDIRECT_URL=http://localhost:9001
       - MINIO_SERVER_URL=http://localhost:9000
       - MINIO_IDENTITY_OPENID_CONFIG_URL=${MinioIdentityConfigURL}
       - MINIO_IDENTITY_OPENID_CLIENT_ID=${MinioIdentityID}
       - MINIO_IDENTITY_OPENID_CLIENT_SECRET=${MinioOpenidSecret}
-      - MINIO_IDENTITY_OPENID_DISPLAY_NAME=SSO_IDENTIFIER
-      - MINIO_IDENTITY_OPENID_SCOPES=openid
       - MINIO_IDENTITY_OPENID_REDIRECT_URI_DYNAMIC=off
     networks:
       - sub-net
@@ -407,14 +385,12 @@ services:
     restart: always
     command: server /data --console-address ":9001"
     environment:
-      - MINIO_ROOT_USER=${MinioRootUser}
-      - MINIO_ROOT_PASSWORD=${MinioRootPass}
+      - MINIO_ROOT_USER=${MinioTRESettings__AccessKey}
+      - MINIO_ROOT_PASSWORD=${MinioTRESettings__SecretKey}
       - MINIO_BROWSER_REDIRECT_URL=http://localhost:9003
       - MINIO_IDENTITY_OPENID_CONFIG_URL=${MinioTreIdentityConfigURL}
       - MINIO_IDENTITY_OPENID_CLIENT_ID=${MinioTreIdentityID}
       - MINIO_IDENTITY_OPENID_CLIENT_SECRET=${MinioTreOpenidSecret}
-      - MINIO_IDENTITY_OPENID_DISPLAY_NAME=SSO_IDENTIFIER
-      - MINIO_IDENTITY_OPENID_SCOPES=openid
       - MINIO_IDENTITY_OPENID_REDIRECT_URI_DYNAMIC=on
     networks:
       - sub-net

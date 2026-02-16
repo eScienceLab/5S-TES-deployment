@@ -57,10 +57,12 @@ services:
         condition: service_healthy
       orchestration:
         condition: service_healthy
+    env_file:
+      - creds.env
     environment:
       - Features__DemoAllInOne=${DemoMode}
       - Features__EphemeralCredentials=true
-      - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Tre;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
+      - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Tre;Include Error Detail=true;User Id=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};TrustServerCertificate=True;
       - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - TreKeyCloakSettings__TokenExpiredAddress=
@@ -110,8 +112,10 @@ services:
         condition: service_healthy
       keycloak:
         condition: service_healthy
+    env_file:
+      - creds.env
     environment:
-      - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DATA-Egress;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
+      - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DATA-Egress;Include Error Detail=true;User Id=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};TrustServerCertificate=True;
       - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
@@ -173,8 +177,10 @@ services:
         condition: service_healthy
       minioSubmission:
         condition: service_healthy
+    env_file:
+      - creds.env
     environment:
-      - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Control;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
+      - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Control;Include Error Detail=true;User Id=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};TrustServerCertificate=True;
       - MinioSettings__Url=${MinioSubSettings__URL}
       - MinioSettings__AdminConsole=${MinioSubSettings__AdminConsole}
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
@@ -210,14 +216,15 @@ services:
   # Keycloak
   ######################################################
   keycloak:
-    <<: *environment
     image: quay.io/keycloak/keycloak:26.0
     container_name: keycloak
+    env_file:
+      - creds.env
     environment:
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://postgres/keycloak
-      KC_DB_USERNAME: ${PGLOGIN}
-      KC_DB_PASSWORD: ${PGPASSWORD}
+      KC_DB_USERNAME: ${POSTGRES_USER}
+      KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
       KC_HOSTNAME: http://localhost:8085
       KC_HOSTNAME_PORT: 8085
       KC_HOSTNAME_BACKCHANNEL_DYNAMIC: true
@@ -258,14 +265,12 @@ services:
   # POSTGRES
   ######################################################
   postgresql:
-    <<: *environment
     image: postgres:17
     container_name: postgres
     restart: always
-    environment:
-      - POSTGRES_USER=${PGLOGIN}
-      - POSTGRES_PASSWORD=${PGPASSWORD}
-      - POSTGRES_DB=DARE-Control
+    env_file:
+      - creds.env
+      - postgres.env
     networks:
       - sub-net
     ports:
@@ -274,7 +279,7 @@ services:
       - "postgresql_data:/var/lib/postgresql/data"
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -q -U ${PGLOGIN} -d keycloak"]
+      test: ["CMD-SHELL", "pg_isready -q -U ${POSTGRES_USER} -d keycloak"]
 
   adminer:
     <<: *environment
@@ -302,7 +307,6 @@ services:
   ######################################################
 
   rabbitmq:
-    <<: *environment
     image: rabbitmq:3-management-alpine
     container_name: "rabbitmq"
     hostname: rabbitmq

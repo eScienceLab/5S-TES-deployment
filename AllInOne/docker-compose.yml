@@ -270,7 +270,8 @@ services:
     restart: always
     env_file:
       - creds.env
-      - postgres.env
+    environment:
+      - POSTGRES_DB=DARE-Control
     networks:
       - sub-net
     ports:

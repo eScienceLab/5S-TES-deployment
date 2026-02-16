@@ -6,6 +6,7 @@ x-environment: &environment
     - user.env
     - vault.env
     - minio.env
+    - zeebee.env
 
 name: AllInOne
 
@@ -72,13 +73,6 @@ services:
       - DmnFilePath=app/ProcessModels
       - TreUISettings__Address=http://localhost:8989
       - TreAPISettings__Address=http://localhost:8072
-      # Zeebe settings
-      - ZeebeBootstrap__Client__GatewayAddress=orchestration:26500
-      - ZeebeBootstrap__Worker__MaxJobsActive=5
-      - ZeebeBootstrap__Worker__TimeoutInMilliseconds=500
-      - ZeebeBootstrap__Worker__PollIntervalInMilliseconds=50
-      - ZeebeBootstrap__Worker__PollingTimeoutInMilliseconds=1000
-      - ZeebeBootstrap__Worker__RetryTimeoutInMilliseconds=1000
 
   ######################################################
   # DataEgress LAYER
@@ -210,13 +204,6 @@ services:
       - Logging__LogLevel__Default=Information
       - Logging__LogLevel__Microsoft.AspNetCore=Warning
       - AllowedHosts=*
-      # Zeebe Bootstrap settings
-      - ZeebeBootstrap__Client__GatewayAddress=orchestration:26500
-      - ZeebeBootstrap__Worker__MaxJobsActive=5
-      - ZeebeBootstrap__Worker__TimeoutInMilliseconds=500
-      - ZeebeBootstrap__Worker__PollIntervalInMilliseconds=50
-      - ZeebeBootstrap__Worker__PollingTimeoutInMilliseconds=1000
-      - ZeebeBootstrap__Worker__RetryTimeoutInMilliseconds=1000
       - ConnectionStrings__TREPostgresConnection=Server=${TRE_DATA_SERVER};Port=${TRE_DATA_PORT};Database=${TRE_DATA_DATABASE};Include Error Detail=true;User Id=${TRE_DATA_USER};Password=${TRE_DATA_PASSWORD};
 
   ######################################################

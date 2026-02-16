@@ -270,8 +270,7 @@ services:
     restart: always
     env_file:
       - creds.env
-    environment:
-      - POSTGRES_DB=DARE-Control
+      - postgres.env
     networks:
       - sub-net
     ports:
@@ -283,17 +282,18 @@ services:
       test: ["CMD-SHELL", "pg_isready -q -U ${POSTGRES_USER} -d keycloak"]
 
   adminer:
-    <<: *environment
     image: adminer
     restart: always
     networks:
       - sub-net
     ports:
       - 8087:8080
+    env_file:
+      - postgres.env
     environment:
       - ADMINER_DEFAULT_DB_DRIVER=psql
       - ADMINER_DEFAULT_DB_HOST=postgres
-      - ADMINER_DEFAULT_DB_NAME=postgres
+      - ADMINER_DEFAULT_DB_NAME=${POSTGRES_DB}
     depends_on:
       postgresql:
         condition: service_healthy

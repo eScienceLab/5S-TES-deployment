@@ -329,7 +329,6 @@ services:
   # MINIO
   ######################################################
   minioSubmission:
-    <<: *environment
     image: coollabsio/minio:RELEASE.2025-04-22T22-12-26Z
     container_name: minioSubmission
     restart: always
@@ -337,6 +336,9 @@ services:
     depends_on:
       keycloak:
         condition: service_healthy
+    env_file:
+      - creds.env
+      - minio.env
     environment:
       - MINIO_ROOT_USER=${MinioSettings__AccessKey}
       - MINIO_ROOT_PASSWORD=${MinioSettings__SecretKey}
@@ -365,7 +367,6 @@ services:
       start_period: 30s
 
   minioTRE:
-    <<: *environment
     image: coollabsio/minio:RELEASE.2025-04-22T22-12-26Z
     mem_limit: 512M
     mem_reservation: 256M
@@ -376,6 +377,9 @@ services:
     container_name: minioTRE
     restart: always
     command: server /data --console-address ":9001"
+    env_file:
+      - creds.env
+      - minio.env
     environment:
       - MINIO_ROOT_USER=${MinioTRESettings__AccessKey}
       - MINIO_ROOT_PASSWORD=${MinioTRESettings__SecretKey}
@@ -405,7 +409,6 @@ services:
   # SEQ / Serilog
   ######################################################
   seq:
-    <<: *environment
     image: datalust/seq:2025.1.14095
     container_name: seq
     restart: always
@@ -423,7 +426,6 @@ services:
   ######################################################
 
   orchestration: # Consolidated Zeebe + Operate + Tasklist - https://docs.camunda.io/docs/self-managed/setup/deploy/other/docker/#zeebe
-    <<: *environment
     image: camunda/camunda:${CAMUNDA_VERSION}
     container_name: orchestration
     ports:
@@ -457,7 +459,6 @@ services:
   # Camunda Connectors - executes outbound and inbound connector logic
   # Docs: https://docs.camunda.io/docs/self-managed/connectors-deployment/connectors-configuration/
   connectors:
-    <<: *environment
     image: camunda/connectors-bundle:${CAMUNDA_BUNDLE_VERSION}
     container_name: connectors
     ports:
@@ -486,7 +487,6 @@ services:
         condition: service_healthy
 
   elasticsearch: # https://hub.docker.com/_/elasticsearch
-    <<: *environment
     image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTIC_VERSION}
     container_name: elasticsearch
     ports:
@@ -520,7 +520,6 @@ services:
   # VAULT
   ######################################################
   vault:
-    <<: *environment
     image: hashicorp/vault:latest
     container_name: vault
     mem_limit: 512M
@@ -529,8 +528,10 @@ services:
     restart: always
     ports:
       - "8200:8200"
+    env_file:
+      - vault.env
     environment:
-      - VAULT_DEV_ROOT_TOKEN_ID=dev-only-token
+      - VAULT_DEV_ROOT_TOKEN_ID=${VaultSettings__Token}
       - VAULT_DEV_LISTEN_ADDRESS=0.0.0.0:8200
       - VAULT_ADDR=http://127.0.0.1:8200
     volumes:
@@ -553,15 +554,14 @@ services:
   # OPENLDAP
   ######################################################
   openldap:
-    <<: *environment
     image: osixia/openldap:1.5.0
     container_name: openldap
+    env_file:
+      - creds.env
     environment:
       LDAP_LOG_LEVEL: "256"
       LDAP_ORGANISATION: "TRE Ephemeral Credentials"
       LDAP_DOMAIN: "camundaephemeral.local"
-      LDAP_ADMIN_PASSWORD: "admin"
-      LDAP_CONFIG_PASSWORD: "config"
       LDAP_TLS: "false"
       LDAP_ADD_LDIF_URL: "file:///container/service/slapd/assets/init.ldif"
     volumes:
@@ -590,7 +590,6 @@ services:
 
   ## Ldap initialisation to create Users OU ##
   ldap-init:
-    <<: *environment
     image: osixia/openldap:1.5.0
     networks:
       - sub-net
@@ -609,7 +608,6 @@ services:
       - ./ldap-init/init.ldif:/container/service/slapd/assets/init.ldif
 
   phpldapadmin:
-    <<: *environment
     image: osixia/phpldapadmin:latest
     container_name: phpldapadmin
     networks:

@@ -17,13 +17,13 @@ services:
       - tre-api
     env_file:
       - config/internal.env
+      - config/routes.env
       - config/user.env
     environment:
       - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
 
   tre-api:
-    <<: *environment
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-tre-api:${dareVer}
     container_name: treapi
     restart: always
@@ -60,6 +60,7 @@ services:
       - Features__DemoAllInOne=${DemoMode}
       - Features__EphemeralCredentials=true
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Tre;Include Error Detail=true;User Id=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};TrustServerCertificate=True;
+      - TreKeyCloakSettings__ClientId=Dare-TRE-API
       - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - TreKeyCloakSettings__TokenExpiredAddress=
@@ -78,7 +79,6 @@ services:
   ######################################################
 
   DataEgressUI:
-    <<: *environment
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-ui:${dareVer}
     container_name: DataEgressUI
     restart: always
@@ -91,14 +91,14 @@ services:
     env_file:
       - config/internal.env
       - config/minio.env
+      - config/routes.env
       - config/user.env
     environment:
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - MinioSettings__Url=${MinioTRESettings__AdminConsole}
+      - MinioSettings__Url=${MinioTRESettings__Url}
 
   DataEgressAPI:
-    <<: *environment
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-api:${dareVer}
     container_name: DataEgressAPI
     restart: always
@@ -134,7 +134,6 @@ services:
   ######################################################
 
   submissionUI:
-    <<: *environment
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-main-ui:${dareVer}
     container_name: submissionUI
     restart: always
@@ -151,6 +150,7 @@ services:
       - config/creds.env
       - config/internal.env
       - config/minio.env
+      - config/routes.env
       - config/user.env
     environment:
       - KeyCloakSettings__Proxy=false
@@ -160,7 +160,6 @@ services:
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
 
   submissionAPI:
-    <<: *environment
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-main-api:${dareVer}
     container_name: submissionAPI
     restart: always
@@ -193,7 +192,6 @@ services:
       - config/user.env
     environment:
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Control;Include Error Detail=true;User Id=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};TrustServerCertificate=True;
-      - MinioSettings__Url=${MinioSubSettings__URL}
       - MinioSettings__AdminConsole=${MinioSubSettings__AdminConsole}
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
@@ -203,7 +201,6 @@ services:
   # Credentials
   #####################################################
   TRE-Camunda:
-    <<: *environment
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-tre-camunda:${dareVer}
     container_name: TRE-Camunda
     restart: always
@@ -238,7 +235,7 @@ services:
       - config/creds.env
     environment:
       KC_DB: postgres
-      KC_DB_URL: jdbc:postgresql://${POSTGRES_DB}/keycloak
+      KC_DB_URL: jdbc:postgresql://postgres/keycloak
       KC_DB_USERNAME: ${POSTGRES_USER}
       KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
       KC_HOSTNAME: http://localhost:8085

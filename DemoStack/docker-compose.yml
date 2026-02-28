@@ -26,6 +26,10 @@ include:
   - ../ServiceStack/compose-manifests/storage/minio-tre.yml
 
 
+  # ----- RO-Crate Services -----
+  # - (Crate Validator)
+  - ../ServiceStack/compose-manifests/rocrate/validator.yml
+
 # ----- Volumes -----
 
 volumes:

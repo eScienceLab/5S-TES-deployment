@@ -29,6 +29,10 @@ include:
   # - (Docker-in-Docker, Funnel)
   - ../ServiceStack/compose-manifests/tes/tes.yml
 
+  # ----- RO-Crate Services -----
+  # - (Crate Validator)
+  - ../ServiceStack/compose-manifests/rocrate/validator.yml
+
 # ----- Volumes -----
 
 volumes:

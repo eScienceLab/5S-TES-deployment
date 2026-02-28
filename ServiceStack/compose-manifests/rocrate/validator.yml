@@ -15,7 +15,6 @@ services:
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
     depends_on:
       - redis
-      - minioAAA
     networks:
       - sub-net
 
@@ -28,7 +27,6 @@ services:
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
     depends_on:
       - redis
-      - minioAAA
     networks:
       - sub-net
 

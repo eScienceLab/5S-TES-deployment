@@ -15,7 +15,7 @@ services:
       - tre-api
     environment:
       - TreAPISettings__InternalApiBaseUrl=http://treAPI:8080
-      - TreAPISettings__PublicApiBaseUrl=http://localhost:8072
+      - TreAPISettings__PublicApiBaseUrl=http://10.99.53.84:8072
       - Serilog__SeqServerUrl=http://seq:5341
       - DemoMode=${DemoMode}
       - KeyCloakDemoMode=${KeyCloakDemoMode}
@@ -142,7 +142,7 @@ services:
       - VaultSettings__EnableRetry=true
       - VaultSettings__MaxRetryAttempts=3
       - DmnPath__Path=/app/ProcessModels
-      - TreAPISettings__Address=http://localhost:8072
+      - TreAPISettings__Address=http://10.99.53.84:8072
       # Zeebe settings
       - ZeebeBootstrap__Client__GatewayAddress=orchestration:26500
       - ZeebeBootstrap__Worker__MaxJobsActive=5

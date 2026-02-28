@@ -14,7 +14,7 @@ services:
     environment:
       - MINIO_ROOT_USER=${MinioRootUser}
       - MINIO_ROOT_PASSWORD=${MinioRootPass}
-      - MINIO_BROWSER_REDIRECT_URL=http://localhost:9003
+      - MINIO_BROWSER_REDIRECT_URL=http://10.99.53.84:9003
       - MINIO_IDENTITY_OPENID_CONFIG_URL=${MinioTreIdentityConfigURL}
       - MINIO_IDENTITY_OPENID_CLIENT_ID=${MinioTreIdentityID}
       - MINIO_IDENTITY_OPENID_CLIENT_SECRET=${MinioTreOpenidSecret}

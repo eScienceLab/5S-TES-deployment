@@ -23,8 +23,8 @@ services:
     ports:
       - 8000:8000
     environment:
-      - MinioKey=${MinioRootUser}
-      - MinioSecret=${MinioRootPass}
+      - MinioKey=${MinioKey}
+      - MinioSecret=${MinioSecret}
       - DOCKER_HOST=tcp://dind:2375
     networks:
       - sub-net

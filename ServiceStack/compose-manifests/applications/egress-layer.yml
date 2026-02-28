@@ -30,7 +30,7 @@ services:
       - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
       - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRedirectURL}
       - DataEgressAPISettings__Address=http://DataEgressAPI:8080
-      - MinioSettings__Url=http://localhost:9003
+      - MinioSettings__Url=http://10.99.53.84:9003
       - sslcookies=${sslcookies}
       - httpsRedirect=${httpsRedirect}
 

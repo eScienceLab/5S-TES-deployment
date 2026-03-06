@@ -59,6 +59,7 @@ services:
 
   # ------ TRE Agent - API -------
   # -----------------------------------
+  
   tre-api:
     image: harbor.federated-analytics.ac.uk/5s-tes/agent-api:${DEPLOYMENT_VERSION}
     container_name: treapi

@@ -4,7 +4,7 @@ services:
   # ------------------------------------------
 
   flask:
-    image: "ghcr.io/esciencelab/cratey-validator:v1.0"
+    image: "ghcr.io/esciencelab/cratey-validator:v1.1"
     container_name: ROCValidAPI
     ports:
       - "5001:5000"
@@ -13,13 +13,14 @@ services:
       - FLASK_ENV=development
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - PROFILES_PATH=/app/profiles
     depends_on:
       - redis
     networks:
       - sub-net
 
   celery_worker:
-    image: "ghcr.io/esciencelab/cratey-validator:v1.0"
+    image: "ghcr.io/esciencelab/cratey-validator:v1.1"
     container_name: ROCValidWorker
     command: celery -A app.celery_worker.celery worker --loglevel=info -E
     environment:
@@ -27,6 +28,8 @@ services:
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
     depends_on:
       - redis
+    volumes:
+      - ${ROCRATE_PROFILES_DIR}:/app/profiles:ro
     networks:
       - sub-net
 

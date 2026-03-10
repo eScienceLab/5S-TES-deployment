@@ -4,7 +4,7 @@ services:
   # ------------------------------------------
 
   flask:
-    image: "ghcr.io/esciencelab/cratey-validator:v1.0"
+    image: "ghcr.io/esciencelab/cratey-validator:v1.1"
     container_name: ROCValidAPI
     ports:
       - "5001:5000"
@@ -19,7 +19,7 @@ services:
       - sub-net
 
   celery_worker:
-    image: "ghcr.io/esciencelab/cratey-validator:v1.0"
+    image: "ghcr.io/esciencelab/cratey-validator:v1.1"
     container_name: ROCValidWorker
     command: celery -A app.celery_worker.celery worker --loglevel=info -E
     environment:

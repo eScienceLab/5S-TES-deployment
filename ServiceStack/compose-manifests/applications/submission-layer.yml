@@ -1,0 +1,101 @@
+services:
+  # ----- Submission UI -----
+  # -----------------------------------------
+  submissionUI:
+    image: harbor.federated-analytics.ac.uk/5s-tes/submission-ui:${DEPLOYMENT_VERSION}
+    container_name: submissionUI
+    restart: always
+    networks:
+      - sub-net
+    ports:
+      - 7220:8080
+      - 8888:8080
+    depends_on:
+      - submissionAPI
+    volumes:
+      - data-protection:/root/.aspnet/DataProtection-Keys
+    environment:
+      - DemoMode=${DemoMode}
+      - KeyCloakDemoMode=${KeyCloakDemoMode}
+      - Serilog__SeqServerUrl=http://seq:5341
+      - KeyCloakSettings__Proxy=false
+      - DareAPISettings__Address=http://submissionAPI:8080
+      - DareAPISettings_HelpAddress=http://submissionAPI:8080
+      - FormIOSettings__UseInternal=true
+      - sslcookies=${sslcookies}
+      - httpsRedirect=${httpsRedirect}
+      - SuppressAntiforgery=${SuppressAntiforgery}
+      - URLSettingsFrontEnd__QueryImageSQL=${URLSettingsFrontEndQueryImageSQL}
+      - URLSettingsFrontEnd__MinioUrl=${submissionMinioAdminConsole}
+      # Submission Keycloak settings
+      - SubmissionKeyCloakSettings__Proxy=${useproxy}
+      - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - SubmissionKeyCloakSettings__BypassProxy="submissionAPI,seq"
+      - SubmissionKeyCloakSettings__TokenExpiredAddress=${SubmissionKeyCloakClientUIRedirectURL}/Account/LoginAfterTokenExpired
+      - SubmissionKeyCloakSettings__UseRedirectURL=false
+      - SubmissionKeyCloakSettings__RedirectURL=${SubmissionKeyCloakClientUIRedirectURL}
+      - SubmissionKeyCloakSettings__ClientSecret=${SubmissionUIClientSecret}
+      - SubmissionKeyCloakSettings__AccountManagementURL=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control/account
+      - SubmissionKeyCloakSettings__BaseUrl=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control
+      - SubmissionKeyCloakSettings__MetadataAddress=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control/.well-known/openid-configuration
+      - SubmissionKeyCloakSettings__Authority=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control/
+
+  # ----- Submission API -----
+  # ----------------------------------
+
+  submissionAPI:
+    image: harbor.federated-analytics.ac.uk/5s-tes/submission-api:${DEPLOYMENT_VERSION}
+    container_name: submissionAPI
+    restart: always
+    networks:
+      - sub-net
+    ports:
+      - 5034:8080
+    volumes:
+      - data-protection:/root/.aspnet/DataProtection-Keys
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 90s
+      start_interval: 5s
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      minioSubmission:
+        condition: service_healthy
+    environment:
+      - DemoMode=${DemoMode}
+      - KeyCloakDemoMode=${KeyCloakDemoMode}
+      - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Control;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
+      - RabbitMQ__HostAddress=rabbitmq
+      - Serilog__SeqServerUrl=http://seq:5341
+      - SuppressAntiforgery=${SuppressAntiforgery}
+      # Minio settings
+      - MinioSettings__Url=http://minioSubmission:9000
+      - MinioSettings__AdminConsole=http://minioSubmission:9001
+      - MinioSettings__AccessKey=${MinioRootUser}
+      - MinioSettings__SecretKey=${MinioRootPass}
+      - MinioSettings__BucketName=testbucket
+      # Submission Keycloak settings
+      - SubmissionKeyCloakSettings__Proxy=${useproxy}
+      - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - SubmissionKeyCloakSettings__BypassProxy=minioSubmission,seq
+      - SubmissionKeyCloakSettings__TokenExpiredAddress=${SubmissionKeyCloakClientUIRedirectURL}/Account/LoginAfterTokenExpired
+      - SubmissionKeyCloakSettings__UseRedirectURL=false
+      - SubmissionKeyCloakSettings__RedirectURL=${SubmissionKeyCloakClientUIRedirectURL}
+      - SubmissionKeyCloakSettings__BaseUrl=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control
+      - SubmissionKeyCloakSettings__MetadataAddress=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control/.well-known/openid-configuration
+      - SubmissionKeyCloakSettings__Authority=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control/
+      - SubmissionKeyCloakSettings__ClientSecret=${SubmissionAPIKeyCloakSecret}
+      - SubmissionKeyCloakSettings__SignedOutRedirectUri=${SubmissionSignedOutRedirectUri}
+      - SubmissionKeyCloakSettings__TokenRefreshSeconds=${SubmissionTokenRefreshSeconds}
+      - SubmissionKeyCloakSettings__ValidAudiences=Dare-Control-UI,Dare-Control-API,Dare-Control-Minio
+      - SubmissionKeyCloakSettings__Server=${SubmissionKeyCloakServer}
+      - SubmissionKeyCloakSettings__Protocol=${SubmissionServerProtocol}
+      - SubmissionKeyCloakSettings__Realm=Dare-Control
+      - SubmissionKeyCloakSettings__AutoTrustKeycloakCert=${SubmissionAutoTrustKeycloakCert}
+      - SubmissionKeyCloakSettings__ValidIssuer=${SubmissionValidIssuer}

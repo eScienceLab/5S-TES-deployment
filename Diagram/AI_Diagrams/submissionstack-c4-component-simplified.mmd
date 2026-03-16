@@ -1,0 +1,40 @@
+C4Component
+  title Submission Stack - Simplified C4 Component Diagram (Presentation View)
+
+  Person(user, "Research User", "Submits data")
+  Person(admin, "Platform Admin", "Operates platform")
+
+  System_Boundary(submissionSystem, "SubmissionLayer Deployment") {
+    Boundary(app, "Submission App", "components") {
+      Component(submissionApp, "Submission App", "UI + API", "Submission portal and backend services")
+    }
+
+    Boundary(identity, "Identity", "components") {
+      Component(keycloak, "Keycloak", "OIDC IdP", "User authentication and authorization")
+    }
+
+    Boundary(data, "Data and Messaging", "components") {
+      ComponentDb(postgresql, "PostgreSQL", "Database", "Metadata and identity persistence")
+      ComponentDb(minioSubmission, "MinIO", "Object Storage", "Submission files")
+      ComponentQueue(rabbitmq, "RabbitMQ", "Message Broker", "Asynchronous processing")
+    }
+
+    Boundary(ops, "Operations", "components") {
+      Component(seq, "Seq", "Log Server", "Centralized logs")
+      Component(adminer, "Adminer", "Admin UI", "Database administration")
+    }
+  }
+
+  Rel(user, submissionApp, "Uses", "HTTPS")
+  Rel(admin, keycloak, "Administers", "Web")
+  Rel(admin, adminer, "Administers DB", "Web")
+
+  Rel(submissionApp, keycloak, "Authenticates users", "OIDC")
+  Rel(submissionApp, postgresql, "Reads/Writes metadata", "SQL")
+  Rel(submissionApp, minioSubmission, "Stores submissions", "S3 API")
+  Rel(submissionApp, rabbitmq, "Publishes events", "AMQP")
+  Rel(submissionApp, seq, "Sends logs", "HTTP")
+
+  Rel(keycloak, postgresql, "Stores identity data", "SQL")
+
+  UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="2")

@@ -1,0 +1,109 @@
+C4Component
+  title DemoStack Docker Compose - C4 Component Diagram
+
+  Person(user, "Research User", "Submits data, runs TRE workflows, and performs egress")
+  Person(admin, "Platform Admin", "Operates identity and platform services")
+
+  System_Boundary(demo, "DemoStack") {
+
+    Boundary(submission, "Submission Layer", "components") {
+      Component(submissionUI, "submissionUI", "Web UI", "Submission portal")
+      Component(submissionAPI, "submissionAPI", "REST API", "Submission workflow and metadata services")
+    }
+
+    Boundary(tre, "TRE Layer", "components") {
+      Component(treUI, "tre-ui", "Web UI", "TRE operations interface")
+      Component(treAPI, "tre-api", "REST API", "TRE orchestration, credentials, and jobs")
+      Component(treCamunda, "TRE-Camunda", "Worker Service", "Zeebe worker for TRE credential workflows")
+    }
+
+    Boundary(egress, "Egress Layer", "components") {
+      Component(egressUI, "DataEgressUI", "Web UI", "Data egress management interface")
+      Component(egressAPI, "DataEgressAPI", "REST API", "Egress approval and data movement")
+    }
+
+    Boundary(shared, "Shared Platform", "components") {
+      ComponentDb(postgres, "postgresql", "PostgreSQL", "Operational and identity databases")
+      ComponentQueue(rabbitmq, "rabbitmq", "RabbitMQ", "Asynchronous messaging")
+      Component(seq, "seq", "Seq", "Centralized application logs")
+      Component(adminer, "adminer", "Admin UI", "Database administration UI")
+    }
+
+    Boundary(identity, "Identity and Credentials", "components") {
+      Component(keycloak, "keycloak", "IdP", "OIDC identity and realm management")
+      Component(openldap, "openldap", "LDAP", "Ephemeral credential directory")
+      Component(ldapInit, "ldap-init", "Init Job", "LDAP bootstrap LDIF load")
+      Component(phpLdapAdmin, "phpldapadmin", "Admin UI", "LDAP administration UI")
+      Component(vault, "vault", "Secrets Manager", "Credential and token secrets")
+    }
+
+    Boundary(orchestrationBoundary, "Workflow Orchestration", "components") {
+      Component(orchestration, "orchestration", "Camunda", "Zeebe, Operate and Tasklist runtime")
+      Component(connectors, "connectors", "Camunda Connectors", "Connector runtime for workflow tasks")
+      ComponentDb(elasticsearch, "elasticsearch", "Elasticsearch", "Camunda secondary storage")
+    }
+
+    Boundary(storage, "Object Storage", "components") {
+      ComponentDb(minioSubmission, "minioSubmission", "MinIO", "Submission object storage")
+      ComponentDb(minioTRE, "minioTRE", "MinIO", "TRE object storage")
+    }
+
+    Boundary(rocrate, "RO-Crate Validation", "components") {
+      Component(rocrateAPI, "flask / ROCValidAPI", "Flask API", "RO-Crate validation endpoint")
+      Component(rocrateWorker, "celery_worker / ROCValidWorker", "Celery Worker", "Asynchronous validation jobs")
+      ComponentDb(redis, "redis", "Redis", "Job queue and result backend")
+    }
+  }
+
+  Rel(user, submissionUI, "Uses", "HTTPS")
+  Rel(user, treUI, "Uses", "HTTPS")
+  Rel(user, egressUI, "Uses", "HTTPS")
+
+  Rel(admin, adminer, "Administers", "Web")
+  Rel(admin, keycloak, "Administers realms", "Web")
+  Rel(admin, phpLdapAdmin, "Administers directory", "Web")
+
+  Rel(submissionUI, submissionAPI, "Calls", "HTTP")
+  Rel(treUI, treAPI, "Calls", "HTTP")
+  Rel(egressUI, egressAPI, "Calls", "HTTP")
+
+  Rel(submissionAPI, postgres, "Reads/Writes", "SQL")
+  Rel(submissionAPI, rabbitmq, "Publishes/Consumes", "AMQP")
+  Rel(submissionAPI, minioSubmission, "Stores submission payloads", "S3 API")
+  Rel(submissionAPI, keycloak, "Authenticates/authorizes", "OIDC")
+  Rel(submissionAPI, seq, "Sends logs", "HTTP")
+
+  Rel(treAPI, postgres, "Reads/Writes", "SQL")
+  Rel(treAPI, rabbitmq, "Publishes/Consumes", "AMQP")
+  Rel(treAPI, minioTRE, "Reads/Writes TRE artifacts", "S3 API")
+  Rel(treAPI, minioSubmission, "Reads submitted inputs", "S3 API")
+  Rel(treAPI, vault, "Reads/Writes secrets", "HTTP API")
+  Rel(treAPI, orchestration, "Starts and monitors workflows", "gRPC/HTTP")
+  Rel(treAPI, submissionAPI, "Retrieves submission metadata", "HTTP")
+  Rel(treAPI, egressAPI, "Coordinates egress", "HTTP")
+  Rel(treAPI, keycloak, "Authenticates/authorizes", "OIDC")
+  Rel(treAPI, seq, "Sends logs", "HTTP")
+
+  Rel(treCamunda, orchestration, "Polls and completes jobs", "Zeebe protocol")
+  Rel(treCamunda, openldap, "Manages ephemeral identities", "LDAP")
+  Rel(treCamunda, vault, "Stores/retrieves credentials", "HTTP API")
+  Rel(treCamunda, postgres, "Reads/Writes credential metadata", "SQL")
+  Rel(treCamunda, seq, "Sends logs", "HTTP")
+
+  Rel(egressAPI, postgres, "Reads/Writes", "SQL")
+  Rel(egressAPI, minioTRE, "Reads egress candidates", "S3 API")
+  Rel(egressAPI, keycloak, "Authenticates/authorizes", "OIDC")
+  Rel(egressAPI, seq, "Sends logs", "HTTP")
+
+  Rel(keycloak, postgres, "Stores realm and user data", "SQL")
+
+  Rel(orchestration, elasticsearch, "Stores process/task state", "HTTP")
+  Rel(connectors, orchestration, "Executes connector jobs", "HTTP/gRPC")
+
+  Rel(ldapInit, openldap, "Bootstraps directory entries", "LDAP")
+  Rel(phpLdapAdmin, openldap, "Manages directory", "LDAP")
+
+  Rel(rocrateAPI, redis, "Queues validation jobs", "Redis protocol")
+  Rel(rocrateWorker, redis, "Consumes jobs/results", "Redis protocol")
+
+  UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="2")

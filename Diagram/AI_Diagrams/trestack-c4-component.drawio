@@ -1,0 +1,179 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.1 Chrome/142.0.7444.265 Electron/39.8.0 Safari/537.36" version="29.6.1">
+  <diagram id="trestack-c4" name="TRE C4 Component">
+    <mxGraphModel dx="1544" dy="1101" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2200" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="user" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Research User" vertex="1">
+          <mxGeometry height="60" width="140" x="85" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="admin" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Platform Admin" vertex="1">
+          <mxGeometry height="60" width="140" x="370" y="1050" as="geometry" />
+        </mxCell>
+        <mxCell id="b_tre" parent="1" style="swimlane;horizontal=0;whiteSpace=wrap;html=1;rounded=0;fillColor=#fff2cc;strokeColor=#d6b656;" value="TRE Layer" vertex="1">
+          <mxGeometry height="280" width="500" x="30" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="treUI" parent="b_tre" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#666;" value="tre-ui&#xa;Web UI" vertex="1">
+          <mxGeometry height="70" width="210" x="20" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="treAPI" parent="b_tre" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#666;" value="tre-api&#xa;REST API" vertex="1">
+          <mxGeometry height="70" width="220" x="260" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="treCamunda" parent="b_tre" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#666;" value="TRE-Camunda&#xa;Worker Service" vertex="1">
+          <mxGeometry height="70" width="220" x="140" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="b_egress" parent="1" style="swimlane;horizontal=0;whiteSpace=wrap;html=1;rounded=0;fillColor=#f8cecc;strokeColor=#b85450;" value="Egress Layer" vertex="1">
+          <mxGeometry height="240" width="420" x="1050" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="egressUI" parent="b_egress" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#666;" value="DataEgressUI&#xa;Web UI" vertex="1">
+          <mxGeometry height="70" width="180" x="20" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="egressAPI" parent="b_egress" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#666;" value="DataEgressAPI&#xa;REST API" vertex="1">
+          <mxGeometry height="70" width="180" x="220" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="b_platform" parent="1" style="swimlane;horizontal=0;whiteSpace=wrap;html=1;rounded=0;fillColor=#d5e8d4;strokeColor=#82b366;" value="Shared Platform" vertex="1">
+          <mxGeometry height="280" width="500" x="680" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="postgresql" parent="b_platform" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#fff;strokeColor=#666;" value="postgresql&#xa;PostgreSQL" vertex="1">
+          <mxGeometry height="70" width="220" x="20" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="rabbitmq" parent="b_platform" style="shape=mxgraph.cisco.safe.queue;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#666;" value="rabbitmq&#xa;RabbitMQ" vertex="1">
+          <mxGeometry height="70" width="220" x="260" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="seq" parent="b_platform" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#666;" value="seq&#xa;Log Server" vertex="1">
+          <mxGeometry height="70" width="220" x="20" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="adminer" parent="b_platform" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#666;" value="adminer&#xa;Admin UI" vertex="1">
+          <mxGeometry height="70" width="220" x="260" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="b_identity" parent="1" style="swimlane;horizontal=0;whiteSpace=wrap;html=1;rounded=0;fillColor=#e1d5e7;strokeColor=#9673a6;" value="Identity and Credentials" vertex="1">
+          <mxGeometry height="320" width="640" x="10" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="keycloak" parent="b_identity" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#666;" value="keycloak&#xa;OIDC IdP" vertex="1">
+          <mxGeometry height="70" width="180" x="20" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="openldap" parent="b_identity" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#666;" value="openldap&#xa;LDAP" vertex="1">
+          <mxGeometry height="70" width="180" x="220" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="vault" parent="b_identity" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#666;" value="vault&#xa;Secrets Manager" vertex="1">
+          <mxGeometry height="70" width="180" x="420" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ldapInit" parent="b_identity" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#666;" value="ldap-init&#xa;Init Job" vertex="1">
+          <mxGeometry height="70" width="180" x="120" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="phpLdapAdmin" parent="b_identity" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#666;" value="phpldapadmin&#xa;Admin UI" vertex="1">
+          <mxGeometry height="70" width="180" x="340" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="b_workflow" parent="1" style="swimlane;horizontal=0;whiteSpace=wrap;html=1;rounded=0;fillColor=#f5f5f5;strokeColor=#666;" value="Workflow Orchestration" vertex="1">
+          <mxGeometry height="260" width="500" x="740" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="orchestration" parent="b_workflow" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#666;" value="orchestration&#xa;Camunda" vertex="1">
+          <mxGeometry height="70" width="220" x="20" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="connectors" parent="b_workflow" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#666;" value="connectors&#xa;Connector Runtime" vertex="1">
+          <mxGeometry height="70" width="220" x="260" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="elasticsearch" parent="b_workflow" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#fff;strokeColor=#666;" value="elasticsearch&#xa;Workflow State Store" vertex="1">
+          <mxGeometry height="70" width="220" x="140" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="b_storage" parent="1" style="swimlane;horizontal=0;whiteSpace=wrap;html=1;rounded=0;fillColor=#d5e8d4;strokeColor=#82b366;" value="Object Storage" vertex="1">
+          <mxGeometry height="170" width="280" x="1180" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="minioTRE" parent="b_storage" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#fff;strokeColor=#666;" value="minioTRE&#xa;MinIO" vertex="1">
+          <mxGeometry height="70" width="220" x="30" y="55" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="user" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" target="treUI" value="Uses HTTPS">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="user" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" target="egressUI" value="Uses HTTPS">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="admin" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" target="keycloak" value="Administers">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="admin" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" target="phpLdapAdmin" value="Administers">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="admin" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" target="adminer" value="Administers">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="treUI" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" target="treAPI" value="Calls HTTP">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="treUI" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" target="keycloak" value="Authenticates OIDC">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="treUI" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" target="seq" value="Sends logs">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="treAPI" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" target="postgresql" value="Reads/Writes SQL">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="treAPI" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" target="rabbitmq" value="AMQP">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1050" y="175" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="treAPI" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" target="minioTRE" value="S3 API">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="treAPI" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" target="vault" value="Secrets API">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="1" source="treAPI" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" target="orchestration" value="Runs workflows">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" edge="1" parent="1" source="treAPI" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" target="egressAPI" value="Coordinates egress">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" edge="1" parent="1" source="treAPI" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" target="keycloak" value="Validates tokens">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" edge="1" parent="1" source="treAPI" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" target="seq" value="Sends logs">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" edge="1" parent="1" source="treCamunda" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" target="orchestration" value="Executes jobs">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e18" edge="1" parent="1" source="treCamunda" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" target="openldap" value="LDAP">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e19" edge="1" parent="1" source="treCamunda" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" target="vault" value="Secrets API">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e20" edge="1" parent="1" source="treCamunda" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" target="postgresql" value="Reads/Writes SQL">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e21" edge="1" parent="1" source="egressUI" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" target="egressAPI" value="Calls HTTP">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e22" edge="1" parent="1" source="egressUI" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" target="keycloak" value="Authenticates OIDC">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e23" edge="1" parent="1" source="egressAPI" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" target="postgresql" value="Reads/Writes SQL">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e24" edge="1" parent="1" source="egressAPI" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" target="minioTRE" value="Reads S3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e25" edge="1" parent="1" source="egressAPI" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" target="keycloak" value="Validates tokens">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e26" edge="1" parent="1" source="keycloak" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" target="postgresql" value="Stores identity data">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e27" edge="1" parent="1" source="ldapInit" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" target="openldap" value="Bootstraps entries">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e28" edge="1" parent="1" source="orchestration" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" target="elasticsearch" value="Stores state">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e29" edge="1" parent="1" source="connectors" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" target="orchestration" value="Executes jobs">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

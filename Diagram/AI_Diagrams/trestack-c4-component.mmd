@@ -1,0 +1,86 @@
+C4Component
+  title TRE Stack (DeploymentStack/TRE) - C4 Component Diagram
+
+  Person(user, "Research User", "Runs TRE analysis and requests egress")
+  Person(admin, "Platform Admin", "Manages identity, credentials, and data services")
+
+  System_Boundary(treSystem, "TRE Deployment") {
+
+    Boundary(treBoundary, "TRE Layer", "components") {
+      Component(treUI, "tre-ui", "Web UI", "TRE operations interface")
+      Component(treAPI, "tre-api", "REST API", "TRE orchestration, credentials, and jobs")
+      Component(treCamunda, "TRE-Camunda", "Worker Service", "Zeebe worker for credential workflows")
+    }
+
+    Boundary(egressBoundary, "Egress Layer", "components") {
+      Component(egressUI, "DataEgressUI", "Web UI", "Data egress management interface")
+      Component(egressAPI, "DataEgressAPI", "REST API", "Egress approvals and data movement")
+    }
+
+    Boundary(platformBoundary, "Shared Platform", "components") {
+      ComponentDb(postgresql, "postgresql", "PostgreSQL", "TRE and identity data")
+      ComponentQueue(rabbitmq, "rabbitmq", "RabbitMQ", "Asynchronous messaging")
+      Component(seq, "seq", "Seq", "Centralized application logging")
+      Component(adminer, "adminer", "Admin UI", "Database administration")
+    }
+
+    Boundary(identityBoundary, "Identity and Credentials", "components") {
+      Component(keycloak, "keycloak", "OIDC IdP", "Authentication and authorization")
+      Component(openldap, "openldap", "LDAP", "Ephemeral credential directory")
+      Component(ldapInit, "ldap-init", "Init Job", "LDAP bootstrap LDIF load")
+      Component(phpLdapAdmin, "phpldapadmin", "Admin UI", "LDAP administration")
+      Component(vault, "vault", "Secrets Manager", "Credential and token secrets")
+    }
+
+    Boundary(workflowBoundary, "Workflow Orchestration", "components") {
+      Component(orchestration, "orchestration", "Camunda", "Zeebe, Operate and Tasklist runtime")
+      Component(connectors, "connectors", "Camunda Connectors", "Connector runtime")
+      ComponentDb(elasticsearch, "elasticsearch", "Elasticsearch", "Camunda secondary storage")
+    }
+
+    Boundary(storageBoundary, "Object Storage", "components") {
+      ComponentDb(minioTRE, "minioTRE", "MinIO", "TRE object storage")
+    }
+  }
+
+  Rel(user, treUI, "Uses", "HTTPS")
+  Rel(user, egressUI, "Uses", "HTTPS")
+
+  Rel(admin, keycloak, "Administers realms", "Web")
+  Rel(admin, phpLdapAdmin, "Administers directory", "Web")
+  Rel(admin, adminer, "Administers database", "Web")
+
+  Rel(treUI, treAPI, "Calls", "HTTP")
+  Rel(treUI, keycloak, "Authenticates users", "OIDC")
+  Rel(treUI, seq, "Sends logs", "HTTP")
+
+  Rel(treAPI, postgresql, "Reads/Writes TRE and credential metadata", "SQL")
+  Rel(treAPI, rabbitmq, "Publishes/Consumes messages", "AMQP")
+  Rel(treAPI, minioTRE, "Reads/Writes TRE artifacts", "S3 API")
+  Rel(treAPI, vault, "Reads/Writes secrets", "HTTP API")
+  Rel(treAPI, orchestration, "Starts and monitors workflows", "gRPC/HTTP")
+  Rel(treAPI, egressAPI, "Coordinates egress", "HTTP")
+  Rel(treAPI, keycloak, "Validates tokens", "OIDC")
+  Rel(treAPI, seq, "Sends logs", "HTTP")
+
+  Rel(treCamunda, orchestration, "Polls and completes jobs", "Zeebe protocol")
+  Rel(treCamunda, openldap, "Manages ephemeral identities", "LDAP")
+  Rel(treCamunda, vault, "Stores/retrieves credentials", "HTTP API")
+  Rel(treCamunda, postgresql, "Reads/Writes credential records", "SQL")
+  Rel(treCamunda, seq, "Sends logs", "HTTP")
+
+  Rel(egressUI, egressAPI, "Calls", "HTTP")
+  Rel(egressUI, keycloak, "Authenticates users", "OIDC")
+
+  Rel(egressAPI, postgresql, "Reads/Writes egress state", "SQL")
+  Rel(egressAPI, minioTRE, "Reads egress candidates", "S3 API")
+  Rel(egressAPI, keycloak, "Validates tokens", "OIDC")
+  Rel(egressAPI, seq, "Sends logs", "HTTP")
+
+  Rel(keycloak, postgresql, "Stores realm and user data", "SQL")
+  Rel(ldapInit, openldap, "Bootstraps directory entries", "LDAP")
+
+  Rel(orchestration, elasticsearch, "Stores process/task state", "HTTP")
+  Rel(connectors, orchestration, "Executes connector jobs", "HTTP/gRPC")
+
+  UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="2")

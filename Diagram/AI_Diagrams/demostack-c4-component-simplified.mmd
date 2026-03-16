@@ -1,0 +1,77 @@
+C4Component
+  title DemoStack - Simplified C4 Component Diagram (Presentation View)
+
+  Person(user, "Research User", "Submits data, runs TRE workflows, and requests egress")
+  Person(admin, "Platform Admin", "Manages platform and identity")
+
+  System_Boundary(demo, "DemoStack") {
+    Boundary(submission, "Submission", "components") {
+      Component(submissionApp, "Submission App", "UI + API", "Entry point for study submission")
+    }
+
+    Boundary(tre, "TRE", "components") {
+      Component(treApp, "TRE App", "UI + API", "Secure analysis and workflow control")
+      Component(treWorker, "TRE Worker", "Camunda Worker", "Executes credential and workflow tasks")
+    }
+
+    Boundary(egress, "Egress", "components") {
+      Component(egressApp, "Egress App", "UI + API", "Manages data release from TRE")
+    }
+
+    Boundary(identity, "Identity and Secrets", "components") {
+      Component(keycloak, "Keycloak", "OIDC IdP", "Authentication and authorization")
+      Component(vault, "Vault", "Secrets Manager", "Stores credential secrets")
+      Component(openldap, "OpenLDAP", "Directory", "Ephemeral credential directory")
+    }
+
+    Boundary(platform, "Shared Data and Messaging", "components") {
+      ComponentDb(postgres, "PostgreSQL", "Database", "Application and identity data")
+      ComponentQueue(rabbitmq, "RabbitMQ", "Message Broker", "Asynchronous events")
+      ComponentDb(minioSub, "MinIO Submission", "Object Storage", "Submission artifacts")
+      ComponentDb(minioTre, "MinIO TRE", "Object Storage", "TRE artifacts")
+    }
+
+    Boundary(workflow, "Workflow Engine", "components") {
+      Component(orchestration, "Camunda", "Workflow Runtime", "Process orchestration")
+      ComponentDb(elasticsearch, "Elasticsearch", "Search Store", "Camunda state storage")
+    }
+
+    Boundary(rocrate, "RO-Crate Validation", "components") {
+      Component(rocrate, "RO-Crate Validator", "Flask + Celery", "Validates RO-Crate packages")
+      ComponentDb(redis, "Redis", "Queue/Cache", "RO-Crate job queue and result backend")
+    }
+  }
+
+  Rel(user, submissionApp, "Uses", "HTTPS")
+  Rel(user, treApp, "Uses", "HTTPS")
+  Rel(user, egressApp, "Uses", "HTTPS")
+
+  Rel(admin, keycloak, "Administers", "Web")
+  Rel(admin, postgres, "Operates", "SQL/Admin UI")
+
+  Rel(submissionApp, keycloak, "Authenticates users", "OIDC")
+  Rel(submissionApp, postgres, "Reads/Writes metadata", "SQL")
+  Rel(submissionApp, minioSub, "Stores submissions", "S3 API")
+  Rel(submissionApp, rabbitmq, "Publishes events", "AMQP")
+
+  Rel(treApp, keycloak, "Authenticates users", "OIDC")
+  Rel(treApp, postgres, "Reads/Writes state", "SQL")
+  Rel(treApp, minioSub, "Reads inputs", "S3 API")
+  Rel(treApp, minioTre, "Writes outputs", "S3 API")
+  Rel(treApp, vault, "Uses secrets", "HTTP API")
+  Rel(treApp, orchestration, "Runs workflows", "gRPC/HTTP")
+  Rel(treApp, egressApp, "Sends egress requests", "HTTP")
+
+  Rel(treWorker, orchestration, "Executes jobs", "Zeebe")
+  Rel(treWorker, openldap, "Manages identities", "LDAP")
+  Rel(treWorker, vault, "Reads/Writes secrets", "HTTP API")
+
+  Rel(egressApp, keycloak, "Authenticates users", "OIDC")
+  Rel(egressApp, postgres, "Reads/Writes state", "SQL")
+  Rel(egressApp, minioTre, "Reads egress data", "S3 API")
+
+  Rel(orchestration, elasticsearch, "Stores workflow state", "HTTP")
+
+  Rel(rocrate, redis, "Uses async validation queue", "Redis protocol")
+
+  UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="2")

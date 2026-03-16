@@ -1,0 +1,59 @@
+C4Component
+  title TRE Stack - Simplified C4 Component Diagram (Presentation View)
+
+  Person(user, "Research User", "Runs TRE workflows and requests data egress")
+  Person(admin, "Platform Admin", "Operates identity and platform services")
+
+  System_Boundary(treSystem, "TRE Deployment") {
+    Boundary(apps, "TRE and Egress Apps", "components") {
+      Component(treApp, "TRE App", "UI + API", "Secure analysis and workflow control")
+      Component(egressApp, "Egress App", "UI + API", "Manages data release from TRE")
+      Component(treWorker, "TRE Worker", "Camunda Worker", "Executes credential workflow tasks")
+    }
+
+    Boundary(identity, "Identity and Secrets", "components") {
+      Component(keycloak, "Keycloak", "OIDC IdP", "Authentication and authorization")
+      Component(vault, "Vault", "Secrets Manager", "Credential secret storage")
+      Component(openldap, "OpenLDAP", "Directory", "Ephemeral identities")
+    }
+
+    Boundary(platform, "Shared Data and Messaging", "components") {
+      ComponentDb(postgresql, "PostgreSQL", "Database", "TRE, egress, and identity persistence")
+      ComponentQueue(rabbitmq, "RabbitMQ", "Message Broker", "Asynchronous processing")
+      ComponentDb(minioTRE, "MinIO TRE", "Object Storage", "TRE datasets and outputs")
+      Component(seq, "Seq", "Log Server", "Centralized logs")
+    }
+
+    Boundary(workflow, "Workflow Engine", "components") {
+      Component(orchestration, "Camunda", "Workflow Runtime", "Process orchestration")
+      ComponentDb(elasticsearch, "Elasticsearch", "Search Store", "Workflow state storage")
+    }
+  }
+
+  Rel(user, treApp, "Uses", "HTTPS")
+  Rel(user, egressApp, "Uses", "HTTPS")
+
+  Rel(admin, keycloak, "Administers", "Web")
+  Rel(admin, postgresql, "Operates", "SQL/Admin UI")
+
+  Rel(treApp, keycloak, "Authenticates users", "OIDC")
+  Rel(treApp, postgresql, "Reads/Writes state", "SQL")
+  Rel(treApp, minioTRE, "Reads/Writes artifacts", "S3 API")
+  Rel(treApp, rabbitmq, "Publishes/Consumes events", "AMQP")
+  Rel(treApp, vault, "Uses secrets", "HTTP API")
+  Rel(treApp, orchestration, "Runs workflows", "gRPC/HTTP")
+  Rel(treApp, egressApp, "Submits egress requests", "HTTP")
+  Rel(treApp, seq, "Sends logs", "HTTP")
+
+  Rel(egressApp, keycloak, "Authenticates users", "OIDC")
+  Rel(egressApp, postgresql, "Reads/Writes egress state", "SQL")
+  Rel(egressApp, minioTRE, "Reads egress data", "S3 API")
+  Rel(egressApp, seq, "Sends logs", "HTTP")
+
+  Rel(treWorker, orchestration, "Executes jobs", "Zeebe")
+  Rel(treWorker, openldap, "Manages identities", "LDAP")
+  Rel(treWorker, vault, "Reads/Writes secrets", "HTTP API")
+
+  Rel(orchestration, elasticsearch, "Stores workflow state", "HTTP")
+
+  UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="2")

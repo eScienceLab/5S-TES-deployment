@@ -1,0 +1,47 @@
+<mxfile host="app.diagrams.net" modified="2026-03-16T10:03:00.000Z" agent="GPT-5.3-Codex" version="24.7.17" type="device">
+  <diagram id="demostack-c4-simplified" name="DemoStack C4 Simplified">
+    <mxGraphModel dx="1500" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="user" value="Research User" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1"><mxGeometry x="80" y="20" width="140" height="60" as="geometry"/></mxCell>
+        <mxCell id="admin" value="Platform Admin" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1"><mxGeometry x="250" y="20" width="140" height="60" as="geometry"/></mxCell>
+
+        <mxCell id="b_apps" value="Submission, TRE, Egress" style="swimlane;horizontal=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1"><mxGeometry x="20" y="110" width="520" height="240" as="geometry"/></mxCell>
+        <mxCell id="submissionApp" value="Submission App" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="b_apps"><mxGeometry x="20" y="55" width="150" height="70" as="geometry"/></mxCell>
+        <mxCell id="treApp" value="TRE App" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="b_apps"><mxGeometry x="190" y="55" width="150" height="70" as="geometry"/></mxCell>
+        <mxCell id="egressApp" value="Egress App" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="b_apps"><mxGeometry x="360" y="55" width="140" height="70" as="geometry"/></mxCell>
+        <mxCell id="treWorker" value="TRE Worker" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="b_apps"><mxGeometry x="190" y="140" width="150" height="60" as="geometry"/></mxCell>
+
+        <mxCell id="b_identity" value="Identity and Secrets" style="swimlane;horizontal=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1"><mxGeometry x="560" y="110" width="420" height="240" as="geometry"/></mxCell>
+        <mxCell id="keycloak" value="Keycloak" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="b_identity"><mxGeometry x="20" y="55" width="120" height="70" as="geometry"/></mxCell>
+        <mxCell id="vault" value="Vault" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="b_identity"><mxGeometry x="155" y="55" width="120" height="70" as="geometry"/></mxCell>
+        <mxCell id="openldap" value="OpenLDAP" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="b_identity"><mxGeometry x="290" y="55" width="110" height="70" as="geometry"/></mxCell>
+
+        <mxCell id="b_platform" value="Shared Data and Messaging" style="swimlane;horizontal=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1"><mxGeometry x="20" y="380" width="520" height="240" as="geometry"/></mxCell>
+        <mxCell id="postgres" value="PostgreSQL" style="shape=cylinder3;whiteSpace=wrap;html=1;" vertex="1" parent="b_platform"><mxGeometry x="20" y="55" width="115" height="70" as="geometry"/></mxCell>
+        <mxCell id="rabbitmq" value="RabbitMQ" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="b_platform"><mxGeometry x="145" y="55" width="115" height="70" as="geometry"/></mxCell>
+        <mxCell id="minioSub" value="MinIO Submission" style="shape=cylinder3;whiteSpace=wrap;html=1;" vertex="1" parent="b_platform"><mxGeometry x="270" y="55" width="115" height="70" as="geometry"/></mxCell>
+        <mxCell id="minioTre" value="MinIO TRE" style="shape=cylinder3;whiteSpace=wrap;html=1;" vertex="1" parent="b_platform"><mxGeometry x="395" y="55" width="105" height="70" as="geometry"/></mxCell>
+
+        <mxCell id="b_workflow" value="Workflow Engine" style="swimlane;horizontal=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666;" vertex="1" parent="1"><mxGeometry x="560" y="380" width="420" height="240" as="geometry"/></mxCell>
+        <mxCell id="orchestration" value="Camunda" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="b_workflow"><mxGeometry x="50" y="55" width="150" height="70" as="geometry"/></mxCell>
+        <mxCell id="elasticsearch" value="Elasticsearch" style="shape=cylinder3;whiteSpace=wrap;html=1;" vertex="1" parent="b_workflow"><mxGeometry x="230" y="55" width="140" height="70" as="geometry"/></mxCell>
+
+        <mxCell id="b_rocrate" value="RO-Crate Validation" style="swimlane;horizontal=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1"><mxGeometry x="1000" y="380" width="260" height="240" as="geometry"/></mxCell>
+        <mxCell id="rocrate" value="RO-Crate Validator" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="b_rocrate"><mxGeometry x="20" y="55" width="220" height="70" as="geometry"/></mxCell>
+        <mxCell id="redis" value="Redis" style="shape=cylinder3;whiteSpace=wrap;html=1;" vertex="1" parent="b_rocrate"><mxGeometry x="70" y="140" width="120" height="60" as="geometry"/></mxCell>
+
+        <mxCell id="e1" value="Uses" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;" edge="1" parent="1" source="user" target="submissionApp"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e2" value="Uses" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;" edge="1" parent="1" source="user" target="treApp"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e3" value="Uses" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;" edge="1" parent="1" source="user" target="egressApp"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e4" value="OIDC" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;" edge="1" parent="1" source="submissionApp" target="keycloak"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e5" value="OIDC" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;" edge="1" parent="1" source="treApp" target="keycloak"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e6" value="OIDC" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;" edge="1" parent="1" source="egressApp" target="keycloak"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e7" value="Runs workflows" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;" edge="1" parent="1" source="treApp" target="orchestration"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e8" value="Executes jobs" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;" edge="1" parent="1" source="treWorker" target="orchestration"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e9" value="Uses queue" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;" edge="1" parent="1" source="rocrate" target="redis"><mxGeometry relative="1" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

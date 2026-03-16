@@ -1,0 +1,47 @@
+C4Component
+  title Submission Stack (DeploymentStack/Submission) - C4 Component Diagram
+
+  Person(user, "Research User", "Submits datasets and metadata")
+  Person(admin, "Platform Admin", "Manages identity and data services")
+
+  System_Boundary(submissionSystem, "SubmissionLayer Deployment") {
+
+    Boundary(submissionBoundary, "Submission Application", "components") {
+      Component(submissionUI, "submissionUI", "Web UI", "Submission portal")
+      Component(submissionAPI, "submissionAPI", "REST API", "Submission workflow and metadata services")
+    }
+
+    Boundary(platformBoundary, "Shared Platform", "components") {
+      ComponentDb(postgresql, "postgresql", "PostgreSQL", "Submission and Keycloak data")
+      ComponentQueue(rabbitmq, "rabbitmq", "RabbitMQ", "Asynchronous messaging")
+      Component(seq, "seq", "Seq", "Centralized application logging")
+      Component(adminer, "adminer", "Admin UI", "PostgreSQL administration")
+    }
+
+    Boundary(identityBoundary, "Identity", "components") {
+      Component(keycloak, "keycloak", "OIDC IdP", "Authentication and authorization")
+    }
+
+    Boundary(storageBoundary, "Object Storage", "components") {
+      ComponentDb(minioSubmission, "minioSubmission", "MinIO", "Submission object store")
+    }
+  }
+
+  Rel(user, submissionUI, "Uses", "HTTPS")
+  Rel(admin, keycloak, "Administers realms", "Web")
+  Rel(admin, adminer, "Administers database", "Web")
+
+  Rel(submissionUI, submissionAPI, "Calls", "HTTP")
+  Rel(submissionUI, keycloak, "Authenticates users", "OIDC")
+  Rel(submissionUI, seq, "Sends logs", "HTTP")
+
+  Rel(submissionAPI, postgresql, "Reads/Writes metadata", "SQL")
+  Rel(submissionAPI, rabbitmq, "Publishes/Consumes messages", "AMQP")
+  Rel(submissionAPI, minioSubmission, "Stores and reads submissions", "S3 API")
+  Rel(submissionAPI, keycloak, "Validates tokens", "OIDC")
+  Rel(submissionAPI, seq, "Sends logs", "HTTP")
+
+  Rel(keycloak, postgresql, "Stores realm and user data", "SQL")
+  Rel(adminer, postgresql, "Queries and manages", "SQL")
+
+  UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="2")

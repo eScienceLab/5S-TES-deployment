@@ -3,7 +3,7 @@ ARG FUNNEL_VERSION
 
 USER root
 RUN apk add --no-cache curl perl-utils \
-    && sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohsu-comp-bio/funnel/refs/heads/develop/install.sh)" -- ${FUNNEL_VERSION} \
+    && sh -c "$(curl -fsSL https://raw.githubusercontent.com/calypr/funnel/refs/heads/develop/install.sh |sed -e 's/ohsu-comp-bio/calypr/')" -- ${FUNNEL_VERSION} \
     && cp /root/.local/bin/funnel /usr/local/bin/funnel \
     && chown rootless:rootless /usr/local/bin/funnel \
     && chmod +x /usr/local/bin/funnel \

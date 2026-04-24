@@ -4,6 +4,7 @@ services:
   # ------------------------------------------
 
   flask:
+    platform: linux/x86_64
     image: "ghcr.io/esciencelab/cratey-validator-fivesafes-profile:v1.1.1"
     container_name: ROCValidAPI
     ports:
@@ -19,6 +20,7 @@ services:
       - sub-net
 
   celery_worker:
+    platform: linux/x86_64
     image: "ghcr.io/esciencelab/cratey-validator-fivesafes-profile:v1.1.1"
     container_name: ROCValidWorker
     command: celery -A app.celery_worker.celery worker --loglevel=info -E

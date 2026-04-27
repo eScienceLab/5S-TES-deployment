@@ -13,9 +13,12 @@ services:
     depends_on:
       - tre-api
     environment:
+      - UIName__Name=${AppName}
       - TreAPISettings__InternalApiBaseUrl=http://treAPI:8080
       - TreAPISettings__PublicApiBaseUrl=${TreApiPublicUrl}
       - Serilog__SeqServerUrl=http://seq:5341
+      - Serilog__MinimumLevel__Default=${SerilogLevel}
+      - Logging__LogLevel__Default=${SerilogLevel}
       - DemoMode=${DemoMode}
       - KeyCloakDemoMode=${KeyCloakDemoMode}
       - sslcookies=${sslcookies}
@@ -54,7 +57,7 @@ services:
       - KEYCLOAK_CLIENT_SECRET=${TreKeyCloakSecret}
       - NEXT_PUBLIC_KEYCLOAK_URL=${NEXT_PUBLIC_KEYCLOAK_URL}
       - NEXT_PUBLIC_KEYCLOAK_REALM=Dare-TRE
-      - NEXT_PUBLIC_HELPDESK_URL=${NEXT_PUBLIC_HELPDESK_URL}
+      - NEXT_PUBLIC_HELPDESK_URL=https://ukserp.atlassian.net/servicedesk/customer/portal/3
       - AGENT_API_URL=http://treapi:8080
 
   # ------ TRE Agent - API -------
@@ -92,9 +95,13 @@ services:
       - ConnectionStrings__CredentialsConnection=Server=postgres;Port=5432;Database=TRE_Credentials;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - RabbitMQ__HostAddress=rabbitmq
       - Serilog__SeqServerUrl=http://seq:5341
+      - Serilog__MinimumLevel__Default=${SerilogLevel}
+      - Logging__LogLevel__Default=${SerilogLevel}
       - DareAPISettings__Address=${SubmissionAPIAddressURL}
       - DataEgressAPISettings__Address=http://DataEgressAPI:8080
-      - EnableExternalHangfire=${EnableExternalHangfire}
+      - Hangfire__EnableExternalHangfire=${EnableExternalHangfire}
+      - Hangfire__Username=${HangfireUser}
+      - Hangfire__Password=${HangfirePassword}
       - AgentSettings__UseTESK=${UseTESK}
       - JobSettings__scanSchedule=${scanSchedule}
       - JobSettings__syncSchedule=${syncSchedule}
@@ -168,10 +175,10 @@ services:
       # Zeebe settings
       - ZeebeBootstrap__Client__GatewayAddress=orchestration:26500
       - ZeebeBootstrap__Worker__MaxJobsActive=5
-      - ZeebeBootstrap__Worker__TimeoutInMilliseconds=500
-      - ZeebeBootstrap__Worker__PollIntervalInMilliseconds=50
-      - ZeebeBootstrap__Worker__PollingTimeoutInMilliseconds=1000
-      - ZeebeBootstrap__Worker__RetryTimeoutInMilliseconds=1000
+      - ZeebeBootstrap__Worker__TimeoutInMilliseconds=5000
+      - ZeebeBootstrap__Worker__PollIntervalInMilliseconds=1000
+      - ZeebeBootstrap__Worker__PollingTimeoutInMilliseconds=5000
+      - ZeebeBootstrap__Worker__RetryTimeoutInMilliseconds=5000
       # Encryption settings
       - EncryptionSettings__Key=${EncryptionSettingsKey}
 
@@ -200,14 +207,16 @@ services:
       - Logging__LogLevel__Microsoft.AspNetCore=Warning
       - AllowedHosts=*
       - Serilog__SeqServerUrl=http://seq:5341
+      - Serilog__MinimumLevel__Default=${SerilogLevel}
+      - Logging__LogLevel__Default=${SerilogLevel}
       - DmnPath__Path=/app/ProcessModels
       # Zeebe Bootstrap settings
       - ZeebeBootstrap__Client__GatewayAddress=orchestration:26500
       - ZeebeBootstrap__Worker__MaxJobsActive=5
-      - ZeebeBootstrap__Worker__TimeoutInMilliseconds=500
-      - ZeebeBootstrap__Worker__PollIntervalInMilliseconds=50
-      - ZeebeBootstrap__Worker__PollingTimeoutInMilliseconds=1000
-      - ZeebeBootstrap__Worker__RetryTimeoutInMilliseconds=1000
+      - ZeebeBootstrap__Worker__TimeoutInMilliseconds=5000
+      - ZeebeBootstrap__Worker__PollIntervalInMilliseconds=1000
+      - ZeebeBootstrap__Worker__PollingTimeoutInMilliseconds=5000
+      - ZeebeBootstrap__Worker__RetryTimeoutInMilliseconds=5000
       # LDAP settings
       - LdapSettings__Host=openldap
       - LdapSettings__Port=389

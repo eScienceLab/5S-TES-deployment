@@ -45,7 +45,7 @@ fi
 
 # ---- Login to MinIO ----
 
-echo "Configuring MinIO client alias..."
+echo "Configuring MinIO client..."
 
 mc alias set tre-minio http://localhost:9002 minio minio123 || {
     echo "ERROR: Unable to connect to MinIO."
@@ -56,24 +56,24 @@ mc alias set tre-minio http://localhost:9002 minio minio123 || {
 
 # ---- Create Access Keys ----
 
-echo "Creating new MinIO Access Key..."
+echo "Fetching MinIO Access Key..."
 
 SA_JSON=$(mc admin user svcacct add tre-minio minio --json)
 
 ACCESS_KEY=$(echo "$SA_JSON" | grep -o '"accessKey":"[^"]*"' | cut -d'"' -f4)
 SECRET_KEY=$(echo "$SA_JSON" | grep -o '"secretKey":"[^"]*"' | cut -d'"' -f4)
 
-echo "Access Key: $ACCESS_KEY"
-echo "Secret Key: $SECRET_KEY"
 
 
 # ---- Install Funnel ----
 
 echo "Checking for Funnel installation..."
 
+export PATH="$HOME/.local/bin:$PATH"
+
 if ! command -v funnel &>/dev/null; then
     echo "Installing Funnel..."
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohsu-comp-bio/funnel/refs/heads/develop/install.sh)" -- v0.11.7-rc.12
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohsu-comp-bio/funnel/refs/heads/develop/install.sh)" -- v0.11.7
 else
     echo "Funnel is already installed."
 fi
@@ -81,7 +81,7 @@ fi
 
 # ---- Create Funnel config.yml ----
 
-FUNNEL_WORK_DIR="./DemoStack/config/funnel-work-dir"
+FUNNEL_WORK_DIR="./funnel-work-dir"
 
 echo "Creating funnel-config.yml..."
 

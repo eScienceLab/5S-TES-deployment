@@ -3,7 +3,7 @@ services:
   # ------------------------------------
 
   minioSubmission:
-    image: coollabsio/minio:RELEASE.2025-04-22T22-12-26Z
+    image: ${HarborFedA}/5s-tes-library/minio:RELEASE.2025-04-22T22-12-26Z
     container_name: minioSubmission
     restart: always
     command: server /data --console-address ":9001"

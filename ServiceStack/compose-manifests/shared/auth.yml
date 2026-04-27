@@ -4,7 +4,7 @@ services:
   # ---------------------------------------------
 
   keycloak:
-    image: quay.io/keycloak/keycloak:26.0
+    image: ${HarborFedA}/5s-tes-library/keycloak:26.0
     container_name: keycloak
     environment:
       KC_DB: postgres

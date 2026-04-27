@@ -4,7 +4,7 @@ services:
   # ------------------------------------------
 
   flask:
-    image: "ghcr.io/esciencelab/cratey-validator-fivesafes-profile:v1.1.1"
+    image: ${HarborFedA}/5s-tes-library/cratey-validator-fivesafes-profile:1.1.2
     container_name: ROCValidAPI
     ports:
       - "5001:5000"
@@ -19,7 +19,7 @@ services:
       - sub-net
 
   celery_worker:
-    image: "ghcr.io/esciencelab/cratey-validator-fivesafes-profile:v1.1.1"
+    image: ${HarborFedA}/5s-tes-library/cratey-validator-fivesafes-profile:1.1.2
     container_name: ROCValidWorker
     command: celery -A app.celery_worker.celery worker --loglevel=info -E
     environment:
@@ -32,7 +32,7 @@ services:
 
 
   redis:
-    image: "redis:alpine"
+    image: ${HarborFedA}/5s-tes-library/redis:alpine
     ports:
       - "6379:6379"
     networks:

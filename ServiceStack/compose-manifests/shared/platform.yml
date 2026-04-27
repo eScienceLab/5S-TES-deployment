@@ -4,7 +4,7 @@ services:
   # ------------------------------------------
 
   postgresql:
-    image: postgres:17
+    image: ${HarborFedA}/5s-tes-library/postgres:17
     container_name: postgres
     restart: always
     environment:
@@ -31,7 +31,7 @@ services:
   # ---------------------------------------------
 
   adminer:
-    image: adminer
+    image: ${HarborFedA}/5s-tes-library/adminer:latest
     restart: always
     networks:
       - sub-net
@@ -54,7 +54,7 @@ services:
   # ----- Seq Log Server ------
   # ----------------------------------
   seq:
-    image: datalust/seq:2025.1.14095
+    image: ${HarborFedA}/5s-tes-library/seq:2025.1.14095
     container_name: seq
     restart: always
     networks:
@@ -69,7 +69,7 @@ services:
 # ----- RabbitMQ Message Broker ------
 # -------------------------------------------
   rabbitmq:
-    image: rabbitmq:3-management-alpine
+    image: ${HarborFedA}/5s-tes-library/rabbitmq:3-management-alpine
     container_name: "rabbitmq"
     hostname: rabbitmq
     ports:

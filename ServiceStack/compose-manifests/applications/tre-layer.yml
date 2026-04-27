@@ -3,7 +3,7 @@ services:
   # -----------------------------------
 
   tre-ui:
-    image: harbor.federated-analytics.ac.uk/5s-tes/agent-ui:${DEPLOYMENT_VERSION}
+    image: ${HarborFedA}/5s-tes/agent-ui:${DEPLOYMENT_VERSION}
     container_name: treUI
     restart: always
     networks:
@@ -40,7 +40,7 @@ services:
   # ------ TRE Agent - Web (NextJS app) -------
   # -----------------------------------
   agent-web:
-    image: harbor.federated-analytics.ac.uk/5s-tes/agent-web:${DEPLOYMENT_VERSION}
+    image: ${HarborFedA}/5s-tes/agent-web:${DEPLOYMENT_VERSION}
     container_name: agent-web
     restart: always
     networks:
@@ -64,7 +64,7 @@ services:
   # -----------------------------------
   
   tre-api:
-    image: harbor.federated-analytics.ac.uk/5s-tes/agent-api:${DEPLOYMENT_VERSION}
+    image: ${HarborFedA}/5s-tes/agent-api:${DEPLOYMENT_VERSION}
     container_name: treapi
     restart: always
     networks:
@@ -186,7 +186,7 @@ services:
   # --------------------------------------------
 
   TRE-Camunda:
-    image: harbor.federated-analytics.ac.uk/5s-tes/credentials-camunda:${DEPLOYMENT_VERSION}
+    image: ${HarborFedA}/5s-tes/credentials-camunda:${DEPLOYMENT_VERSION}
     container_name: TRE-Camunda
     restart: always
     networks:

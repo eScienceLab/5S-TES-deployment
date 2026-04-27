@@ -2,7 +2,7 @@ services:
   # ----- Submission UI -----
   # -----------------------------------------
   submissionUI:
-    image: harbor.federated-analytics.ac.uk/5s-tes/submission-ui:${DEPLOYMENT_VERSION}
+    image: ${HarborFedA}/5s-tes/submission-ui:${DEPLOYMENT_VERSION}
     container_name: submissionUI
     restart: always
     networks:
@@ -47,7 +47,7 @@ services:
   # ----------------------------------
 
   submissionAPI:
-    image: harbor.federated-analytics.ac.uk/5s-tes/submission-api:${DEPLOYMENT_VERSION}
+    image: ${HarborFedA}/5s-tes/submission-api:${DEPLOYMENT_VERSION}
     container_name: submissionAPI
     restart: always
     networks:

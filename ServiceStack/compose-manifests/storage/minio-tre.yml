@@ -3,7 +3,7 @@ services:
   # -----------------------------
 
   minioTRE:
-    image: coollabsio/minio:RELEASE.2025-04-22T22-12-26Z
+    image: ${HarborFedA}/5s-tes-library/minio:RELEASE.2025-04-22T22-12-26Z
     mem_limit: 512M
     mem_reservation: 256M
     cpus: 0.1

@@ -7,10 +7,8 @@ services:
     image: postgres:17
     container_name: postgres
     restart: always
-    environment:
-      - POSTGRES_USER=${PGLOGIN}
-      - POSTGRES_PASSWORD=${PGPASSWORD}
-      - POSTGRES_DB=DARE-Control
+    env_file:
+      - ../../env_files/postgres.env
     networks:
       - sub-net
     ports:

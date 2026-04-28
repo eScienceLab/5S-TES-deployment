@@ -6,12 +6,7 @@ services:
     container_name: omop-lite
     depends_on:
       - postgresql
-    environment:
-      - DB_PASSWORD=${PGPASSWORD}
-      - DB_USER=${PGLOGIN}
-      - DB_HOST=postgres
-      - DB_NAME=tredata
-      - SYNTHETIC=true
-      - SYNTHETIC_NUMBER=1000
+    env_file:
+      - ../../env_files/omop-lite.env
     networks:
       - sub-net

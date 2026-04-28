@@ -7,17 +7,9 @@ services:
     container_name: minioSubmission
     restart: always
     command: server /data --console-address ":9001"
-    environment:
-      - MINIO_ROOT_USER=${MinioRootUser}
-      - MINIO_ROOT_PASSWORD=${MinioRootPass}
-      - MINIO_BROWSER_REDIRECT_URL=${submissionMinioAdminConsole}
-      - MINIO_SERVER_URL=${submissionMinioUrl}
-      - MINIO_IDENTITY_OPENID_CONFIG_URL=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control/.well-known/openid-configuration
-      - MINIO_IDENTITY_OPENID_CLIENT_ID=Dare-Control-Minio
-      - MINIO_IDENTITY_OPENID_CLIENT_SECRET=${MinioOpenidSecret}
-      - MINIO_IDENTITY_OPENID_DISPLAY_NAME=Login with KeyCloak
-      - MINIO_IDENTITY_OPENID_SCOPES=openid
-      - MINIO_IDENTITY_OPENID_REDIRECT_URI_DYNAMIC=off
+    env_file:
+      - ../../env_files/minio-shared.env
+      - ../../env_files/minio-sub.env
     networks:
       - sub-net
     volumes:

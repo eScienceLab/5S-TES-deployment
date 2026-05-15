@@ -2,10 +2,6 @@ Database: boltdb
 
 Compute: local
 
-Logger:
-  Level: info
-  OutputFile: ""
-
 Server:
   HTTPPort: "8000"
   RPCPort: "9090"
@@ -23,9 +19,6 @@ BoltDB:
 
 AmazonS3:
   Disabled: true
-  MaxRetries: 10
-  Key: ""
-  Secret: ""
 
 GenericS3:
   - Disabled: false

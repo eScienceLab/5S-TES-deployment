@@ -1,6 +1,6 @@
 services:
   dind:
-    image: docker:dind
+    image: docker:20-dind
     privileged: true
     command: dockerd --host=tcp://0.0.0.0:2375
     healthcheck:
@@ -42,6 +42,7 @@ services:
       - MinioKey=${FunnelMinioUser} 
       - MinioSecret=${FunnelMinioPass}
       - DOCKER_HOST=tcp://dind:2375
+      - DOCKER_API_VERSION=1.41
     networks:
       - sub-net
     volumes:
